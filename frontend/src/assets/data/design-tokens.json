@@ -1,6 +1,6 @@
 {
   "meta": {
-    "name": "design-sys-generator",
+    "name": "design_system_generator",
     "version": "0.1.0",
     "description": "Source of truth for the generator. Primitives are mode-free; semantic tokens live in mode blocks and alias primitives via \"{path.to.token}\".",
     "defaultMode": "light"
@@ -20,6 +20,19 @@
         "800": { "value": "#1E40AF" },
         "900": { "value": "#1E3A8A" },
         "950": { "value": "#172554" }
+      },
+      "sky": {
+        "50":  { "value": "#F0F9FF" },
+        "100": { "value": "#E0F2FE" },
+        "200": { "value": "#BAE6FD" },
+        "300": { "value": "#7DD3FC" },
+        "400": { "value": "#38BDF8" },
+        "500": { "value": "#0EA5E9" },
+        "600": { "value": "#0284C7" },
+        "700": { "value": "#0369A1" },
+        "800": { "value": "#075985" },
+        "900": { "value": "#0C4A6E" },
+        "950": { "value": "#082F49" }
       },
       "neutral": {
         "0":   { "value": "#FFFFFF" },
@@ -112,12 +125,22 @@
     },
 
     "spacing": {
+      "none": { "value": "0px" },
       "xs":  { "value": "4px" },
       "sm":  { "value": "8px" },
       "md":  { "value": "16px" },
       "lg":  { "value": "24px" },
       "xl":  { "value": "32px" },
       "2xl": { "value": "48px" }
+    },
+
+    "size": {
+      "control": {
+        "sm": { "value": "32px", "description": "Small button/input height" },
+        "md": { "value": "36px", "description": "Default button/input height" },
+        "lg": { "value": "40px", "description": "Large button/input height" }
+      },
+      "icon": { "value": "16px", "description": "Inline icon size" }
     },
 
     "radius": {
@@ -153,7 +176,8 @@
         "surface": {
           "default": { "value": "{primitive.color.neutral.50}",  "description": "Page background" },
           "raised":  { "value": "{primitive.color.neutral.0}",   "description": "Cards, popovers" },
-          "sunken":  { "value": "{primitive.color.neutral.100}", "description": "Wells, input backgrounds" }
+          "sunken":  { "value": "{primitive.color.neutral.100}", "description": "Wells, input backgrounds" },
+          "hover":   { "value": "{primitive.color.neutral.100}", "description": "Hover background for ghost/outline controls and menu items" }
         },
         "text": {
           "default": { "value": "{primitive.color.neutral.900}", "description": "Body and headings" },
@@ -162,17 +186,18 @@
         },
         "border": {
           "default": { "value": "{primitive.color.neutral.200}", "description": "Dividers, card edges" },
-          "strong":  { "value": "{primitive.color.neutral.400}", "description": "Input borders" }
+          "strong":  { "value": "{primitive.color.neutral.500}", "description": "Input borders" }
         },
         "action": {
           "primary":      { "value": "{primitive.color.blue.600}", "description": "Primary button bg, links" },
-          "primaryHover": { "value": "{primitive.color.blue.700}" }
+          "primaryHover": { "value": "{primitive.color.blue.700}" },
+          "secondary":    { "value": "{primitive.color.neutral.100}", "description": "Secondary button bg" }
         },
         "feedback": {
           "success": { "value": "{primitive.color.green.700}" },
           "warning": { "value": "{primitive.color.amber.700}" },
           "danger":  { "value": "{primitive.color.red.600}" },
-          "info":    { "value": "{primitive.color.blue.700}" }
+          "info":    { "value": "{primitive.color.sky.700}" }
         },
         "focus": { "value": "{primitive.color.blue.500}", "description": "Focus ring" }
       }
@@ -183,7 +208,8 @@
         "surface": {
           "default": { "value": "{primitive.color.neutral.900}", "description": "Page background" },
           "raised":  { "value": "{primitive.color.neutral.800}", "description": "Lighter than default — elevation without shadow" },
-          "sunken":  { "value": "{primitive.color.neutral.950}", "description": "Wells, input backgrounds" }
+          "sunken":  { "value": "{primitive.color.neutral.950}", "description": "Wells, input backgrounds" },
+          "hover":   { "value": "{primitive.color.neutral.700}", "description": "Hover background for ghost/outline controls and menu items" }
         },
         "text": {
           "default": { "value": "{primitive.color.neutral.50}",  "description": "Body and headings" },
@@ -196,13 +222,14 @@
         },
         "action": {
           "primary":      { "value": "{primitive.color.blue.400}", "description": "Primary button bg, links" },
-          "primaryHover": { "value": "{primitive.color.blue.300}" }
+          "primaryHover": { "value": "{primitive.color.blue.300}" },
+          "secondary":    { "value": "{primitive.color.neutral.700}", "description": "Secondary button bg" }
         },
         "feedback": {
           "success": { "value": "{primitive.color.green.400}" },
           "warning": { "value": "{primitive.color.amber.400}" },
           "danger":  { "value": "{primitive.color.red.400}" },
-          "info":    { "value": "{primitive.color.blue.400}" }
+          "info":    { "value": "{primitive.color.sky.400}" }
         },
         "focus": { "value": "{primitive.color.blue.300}", "description": "Focus ring" }
       }
