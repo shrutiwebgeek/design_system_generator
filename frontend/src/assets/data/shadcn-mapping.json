@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "name": "shadcn-mapping",
+    "version": "0.1.0",
+    "target": "shadcn/ui on Tailwind CSS v4",
+    "description": "Read on every token upload. Maps design tokens onto shadcn's CSS variables, Tailwind v4 @theme variables, and rewrites shadcn's hard-coded utility classes onto token utilities.",
+    "pathConvention": "Paths starting with 'primitive.' are mode-free. Every other path resolves inside each modes.<mode> block of the token file (e.g. 'color.surface.default' -> modes.light.color.surface.default)."
+  },
+
+  "cssVars": {
+    "--background":           "color.surface.default",
+    "--foreground":           "color.text.default",
+    "--card":                 "color.surface.raised",
+    "--card-foreground":      "color.text.default",
+    "--popover":              "color.surface.raised",
+    "--popover-foreground":   "color.text.default",
+    "--primary":              "color.action.primary",
+    "--primary-foreground":   "color.text.inverse",
+    "--secondary":            "color.action.secondary",
+    "--secondary-foreground": "color.text.default",
+    "--muted":                "color.surface.sunken",
+    "--muted-foreground":     "color.text.muted",
+    "--accent":               "color.surface.hover",
+    "--accent-foreground":    "color.text.default",
+    "--destructive":          "color.feedback.danger",
+    "--border":               "color.border.default",
+    "--input":                "color.border.strong",
+    "--ring":                 "color.focus",
+    "--radius":               "primitive.radius.lg"
+  },
+
+  "theme": {
+    "--spacing-none":       "primitive.spacing.none",
+    "--spacing-xs":         "primitive.spacing.xs",
+    "--spacing-sm":         "primitive.spacing.sm",
+    "--spacing-md":         "primitive.spacing.md",
+    "--spacing-lg":         "primitive.spacing.lg",
+    "--spacing-xl":         "primitive.spacing.xl",
+    "--spacing-2xl":        "primitive.spacing.2xl",
+    "--spacing-control-sm": "primitive.size.control.sm",
+    "--spacing-control-md": "primitive.size.control.md",
+    "--spacing-control-lg": "primitive.size.control.lg",
+    "--spacing-icon":       "primitive.size.icon",
+
+    "--text-xs":  "primitive.fontSize.xs",
+    "--text-sm":  "primitive.fontSize.sm",
+    "--text-md":  "primitive.fontSize.md",
+    "--text-lg":  "primitive.fontSize.lg",
+    "--text-xl":  "primitive.fontSize.xl",
+    "--text-2xl": "primitive.fontSize.2xl",
+    "--text-3xl": "primitive.fontSize.3xl",
+    "--text-4xl": "primitive.fontSize.4xl",
+
+    "--font-sans": "primitive.fontFamily.sans",
+    "--font-mono": "primitive.fontFamily.mono",
+
+    "--font-weight-normal":   "primitive.fontWeight.regular",
+    "--font-weight-medium":   "primitive.fontWeight.medium",
+    "--font-weight-semibold": "primitive.fontWeight.semibold",
+    "--font-weight-bold":     "primitive.fontWeight.bold",
+
+    "--leading-tight":   "primitive.lineHeight.tight",
+    "--leading-normal":  "primitive.lineHeight.normal",
+    "--leading-relaxed": "primitive.lineHeight.relaxed",
+
+    "--radius-none": "primitive.radius.none",
+    "--radius-sm":   "primitive.radius.sm",
+    "--radius-md":   "primitive.radius.md",
+    "--radius-lg":   "primitive.radius.lg",
+    "--radius-full": "primitive.radius.full",
+
+    "--shadow-sm": "primitive.shadow.sm",
+    "--shadow-md": "primitive.shadow.md",
+    "--shadow-lg": "primitive.shadow.lg"
+  },
+
+  "rewrite": {
+    "unmapped": "snap-and-warn",
+    "tieBreak": "down",
+    "neverSnapNonZeroToNone": true,
+
+    "spacing": {
+      "description": "Tailwind numeric step (x 4px) -> spacing token. Ties round down.",
+      "prefixes": [
+        "p", "px", "py", "pt", "pr", "pb", "pl", "ps", "pe",
+        "m", "mx", "my", "mt", "mr", "mb", "ml", "ms", "me",
+        "gap", "gap-x", "gap-y", "space-x", "space-y",
+        "inset", "inset-x", "inset-y", "top", "right", "bottom", "left"
+      ],
+      "steps": {
+        "0":   "none",
+        "0.5": "xs",
+        "1":   "xs",
+        "1.5": "xs",
+        "2":   "sm",
+        "2.5": "sm",
+        "3":   "sm",
+        "3.5": "md",
+        "4":   "md",
+        "5":   "md",
+        "6":   "lg",
+        "7":   "lg",
+        "8":   "xl",
+        "9":   "xl",
+        "10":  "xl",
+        "11":  "2xl",
+        "12":  "2xl",
+        "14":  "2xl",
+        "16":  "2xl"
+      }
+    },
+
+    "size": {
+      "description": "Heights and square sizes. Control heights must line up across buttons and inputs, so they map to size tokens instead of snapping.",
+      "prefixes": ["h", "min-h", "size"],
+      "steps": {
+        "4":  "icon",
+        "8":  "control-sm",
+        "9":  "control-md",
+        "10": "control-lg"
+      },
+      "fallback": "spacing"
+    },
+
+    "fontSize": {
+      "prefix": "text",
+      "steps": { "base": "md", "5xl": "4xl", "6xl": "4xl" }
+    },
+
+    "leading": {
+      "prefix": "leading",
+      "steps": { "none": "tight", "snug": "tight", "loose": "relaxed" }
+    },
+
+    "radius": {
+      "prefix": "rounded",
+      "steps": { "": "sm", "xs": "sm", "xl": "lg", "2xl": "lg", "3xl": "lg" }
+    },
+
+    "shadow": {
+      "prefix": "shadow",
+      "steps": { "": "sm", "xs": "sm", "xl": "lg", "2xl": "lg" }
+    }
+  }
+}
