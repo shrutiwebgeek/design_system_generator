@@ -170,6 +170,25 @@
     }
   },
 
+  "semantic": {
+    "typography": {
+      "display": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.4xl}", "fontWeight": "{primitive.fontWeight.bold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Hero and landing headlines" },
+      "heading": {
+        "lg": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.3xl}", "fontWeight": "{primitive.fontWeight.semibold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Page title" },
+        "md": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.2xl}", "fontWeight": "{primitive.fontWeight.semibold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Section title" },
+        "sm": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.xl}", "fontWeight": "{primitive.fontWeight.semibold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Card and dialog title" }
+      },
+      "body": {
+        "lg": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.lg}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Lead paragraph" },
+        "md": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.md}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Default body copy" },
+        "sm": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.sm}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Dense UI copy, table cells" }
+      },
+      "label":   { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.sm}", "fontWeight": "{primitive.fontWeight.medium}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Form labels, buttons" },
+      "caption": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.xs}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Helper text, timestamps" },
+      "code":    { "value": { "fontFamily": "{primitive.fontFamily.mono}", "fontSize": "{primitive.fontSize.sm}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Inline code and code blocks" }
+    }
+  },
+
   "modes": {
     "light": {
       "color": {

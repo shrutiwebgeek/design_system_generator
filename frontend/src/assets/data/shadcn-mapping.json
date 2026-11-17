@@ -1,10 +1,10 @@
 {
   "meta": {
     "name": "shadcn-mapping",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "target": "shadcn/ui on Tailwind CSS v4",
     "description": "Read on every token upload. Maps design tokens onto shadcn's CSS variables, Tailwind v4 @theme variables, and rewrites shadcn's hard-coded utility classes onto token utilities.",
-    "pathConvention": "Paths starting with 'primitive.' are mode-free. Every other path resolves inside each modes.<mode> block of the token file (e.g. 'color.surface.default' -> modes.light.color.surface.default)."
+    "pathConvention": "Paths starting with 'primitive.' or 'semantic.' are mode-free. Every other path resolves inside each modes.<mode> block of the token file (e.g. 'color.surface.default' -> modes.light.color.surface.default)."
   },
 
   "cssVars": {
@@ -30,17 +30,17 @@
   },
 
   "theme": {
-    "--spacing-none":       "primitive.spacing.none",
-    "--spacing-xs":         "primitive.spacing.xs",
-    "--spacing-sm":         "primitive.spacing.sm",
-    "--spacing-md":         "primitive.spacing.md",
-    "--spacing-lg":         "primitive.spacing.lg",
-    "--spacing-xl":         "primitive.spacing.xl",
-    "--spacing-2xl":        "primitive.spacing.2xl",
-    "--spacing-control-sm": "primitive.size.control.sm",
-    "--spacing-control-md": "primitive.size.control.md",
-    "--spacing-control-lg": "primitive.size.control.lg",
-    "--spacing-icon":       "primitive.size.icon",
+    "--spacing-ds-none":       "primitive.spacing.none",
+    "--spacing-ds-xs":         "primitive.spacing.xs",
+    "--spacing-ds-sm":         "primitive.spacing.sm",
+    "--spacing-ds-md":         "primitive.spacing.md",
+    "--spacing-ds-lg":         "primitive.spacing.lg",
+    "--spacing-ds-xl":         "primitive.spacing.xl",
+    "--spacing-ds-2xl":        "primitive.spacing.2xl",
+    "--spacing-ds-control-sm": "primitive.size.control.sm",
+    "--spacing-ds-control-md": "primitive.size.control.md",
+    "--spacing-ds-control-lg": "primitive.size.control.lg",
+    "--spacing-ds-icon":       "primitive.size.icon",
 
     "--text-xs":  "primitive.fontSize.xs",
     "--text-sm":  "primitive.fontSize.sm",
@@ -74,7 +74,26 @@
     "--shadow-lg": "primitive.shadow.lg"
   },
 
+  "textStyles": {
+    "description": "Each key becomes a Tailwind @utility setting font-family, font-size, font-weight and line-height from the semantic role. Used by organisms and docs pages; shadcn classes are not rewritten to these.",
+    "text-display":    "semantic.typography.display",
+    "text-heading-lg": "semantic.typography.heading.lg",
+    "text-heading-md": "semantic.typography.heading.md",
+    "text-heading-sm": "semantic.typography.heading.sm",
+    "text-body-lg":    "semantic.typography.body.lg",
+    "text-body-md":    "semantic.typography.body.md",
+    "text-body-sm":    "semantic.typography.body.sm",
+    "text-label":      "semantic.typography.label",
+    "text-caption":    "semantic.typography.caption",
+    "text-code":       "semantic.typography.code"
+  },
+
   "rewrite": {
+    "utilityPrefix": {
+      "namespace": "spacing",
+      "prefix": "ds-",
+      "why": "Tailwind v4 also reads --spacing-<name> for w-/max-w-<name>; unprefixed t-shirt names turned max-w-md into 16px (verified 2026-11-17)."
+    },
     "unmapped": "snap-and-warn",
     "tieBreak": "down",
     "neverSnapNonZeroToNone": true,
@@ -88,25 +107,25 @@
         "inset", "inset-x", "inset-y", "top", "right", "bottom", "left"
       ],
       "steps": {
-        "0":   "none",
-        "0.5": "xs",
-        "1":   "xs",
-        "1.5": "xs",
-        "2":   "sm",
-        "2.5": "sm",
-        "3":   "sm",
-        "3.5": "md",
-        "4":   "md",
-        "5":   "md",
-        "6":   "lg",
-        "7":   "lg",
-        "8":   "xl",
-        "9":   "xl",
-        "10":  "xl",
-        "11":  "2xl",
-        "12":  "2xl",
-        "14":  "2xl",
-        "16":  "2xl"
+        "0":   "ds-none",
+        "0.5": "ds-xs",
+        "1":   "ds-xs",
+        "1.5": "ds-xs",
+        "2":   "ds-sm",
+        "2.5": "ds-sm",
+        "3":   "ds-sm",
+        "3.5": "ds-md",
+        "4":   "ds-md",
+        "5":   "ds-md",
+        "6":   "ds-lg",
+        "7":   "ds-lg",
+        "8":   "ds-xl",
+        "9":   "ds-xl",
+        "10":  "ds-xl",
+        "11":  "ds-2xl",
+        "12":  "ds-2xl",
+        "14":  "ds-2xl",
+        "16":  "ds-2xl"
       }
     },
 
@@ -114,10 +133,10 @@
       "description": "Heights and square sizes. Control heights must line up across buttons and inputs, so they map to size tokens instead of snapping.",
       "prefixes": ["h", "min-h", "size"],
       "steps": {
-        "4":  "icon",
-        "8":  "control-sm",
-        "9":  "control-md",
-        "10": "control-lg"
+        "4":  "ds-icon",
+        "8":  "ds-control-sm",
+        "9":  "ds-control-md",
+        "10": "ds-control-lg"
       },
       "fallback": "spacing"
     },
