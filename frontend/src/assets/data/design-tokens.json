@@ -136,11 +136,15 @@
 
     "size": {
       "control": {
+        "xs": { "value": "20px", "description": "Badge and inline field height" },
         "sm": { "value": "32px", "description": "Small button/input height" },
         "md": { "value": "36px", "description": "Default button/input height" },
         "lg": { "value": "40px", "description": "Large button/input height" }
       },
-      "icon": { "value": "16px", "description": "Inline icon size" }
+      "icon": {
+        "sm": { "value": "12px", "description": "Icons in small controls, badges, checkbox tick" },
+        "md": { "value": "16px", "description": "Default inline icon" }
+      }
     },
 
     "radius": {
@@ -215,7 +219,7 @@
         "feedback": {
           "success": { "value": "{primitive.color.green.700}" },
           "warning": { "value": "{primitive.color.amber.700}" },
-          "danger":  { "value": "{primitive.color.red.600}" },
+          "danger":  { "value": "{primitive.color.red.800}", "description": "Darker than red.600 so it passes AA on its own 10-20% tint (Base UI destructive button)" },
           "info":    { "value": "{primitive.color.sky.700}" }
         },
         "focus": { "value": "{primitive.color.blue.500}", "description": "Focus ring" }
@@ -247,7 +251,7 @@
         "feedback": {
           "success": { "value": "{primitive.color.green.400}" },
           "warning": { "value": "{primitive.color.amber.400}" },
-          "danger":  { "value": "{primitive.color.red.400}" },
+          "danger":  { "value": "{primitive.color.red.200}", "description": "Lighter than red.400 so it passes AA on its own 20-30% tint (Base UI destructive button)" },
           "info":    { "value": "{primitive.color.sky.400}" }
         },
         "focus": { "value": "{primitive.color.blue.300}", "description": "Focus ring" }
