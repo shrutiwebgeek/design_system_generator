@@ -1,17 +1,8 @@
 import ts from 'typescript'
-import type { Mapping, RewriteGroup, TokenFile } from '@dsg/design-data'
+import type { Mapping, RewriteGroup, RewriteWarning, TokenFile } from '@dsg/design-data'
 import { parsePx, resolvePath } from '../tokens.ts'
 
-export type WarningReason =
-  | 'snapped' //   off-scale step, replaced by the nearest token (tie-break per mapping)
-  | 'unmapped' //  named step with no rule and no theme variable; left as-is
-  | 'arbitrary' // arbitrary value like rounded-[min(var(--radius-md),8px)]; can't be tokenized
-
-export interface RewriteWarning {
-  original: string
-  replacement: string | null
-  reason: WarningReason
-}
+export type { RewriteWarning, WarningReason } from '@dsg/design-data'
 
 export interface RewriteResult {
   code: string
