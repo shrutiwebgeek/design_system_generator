@@ -1,0 +1,328 @@
+{
+  "atoms": [
+    {
+      "label": "Button",
+      "description": "Triggers an action. Variants: default, destructive, outline, secondary, ghost, link; sizes from xs to lg plus icon-only.",
+      "source": "button"
+    },
+    {
+      "label": "Badge",
+      "description": "Small status or count label attached to other content.",
+      "source": "badge"
+    },
+    {
+      "label": "Avatar",
+      "description": "User or entity image with a text fallback (e.g. initials).",
+      "source": "avatar"
+    },
+    {
+      "label": "Aspect Ratio",
+      "description": "Keeps media at a fixed width-to-height ratio as it resizes.",
+      "source": "aspect-ratio"
+    },
+    {
+      "label": "Checkbox",
+      "description": "Binary or indeterminate choice, usually paired with a Label.",
+      "source": "checkbox"
+    },
+    {
+      "label": "Radio Group",
+      "description": "Single choice from a small set of mutually exclusive options.",
+      "source": "radio-group"
+    },
+    {
+      "label": "Label",
+      "description": "Accessible text label bound to a form control.",
+      "source": "label"
+    },
+    {
+      "label": "Input",
+      "description": "Single-line text field.",
+      "source": "input"
+    },
+    {
+      "label": "Tag",
+      "description": "Alias of Badge: keyword or category marker.",
+      "source": "badge"
+    },
+    {
+      "label": "Chip",
+      "description": "Alias of Badge: compact token for a selection or filter.",
+      "source": "badge"
+    },
+    {
+      "label": "Spinner",
+      "description": "Indeterminate loading indicator.",
+      "source": "spinner"
+    },
+    {
+      "label": "Progress Bar",
+      "description": "Determinate progress of a task, from 0 to 100%.",
+      "source": "progress"
+    },
+    {
+      "label": "Icon",
+      "description": "Single glyph from the icon set. No shadcn component: shadcn uses lucide-react icons directly.",
+      "source": null
+    },
+    {
+      "label": "Keyboard Key",
+      "description": "Displays a keyboard key or shortcut, e.g. Cmd + K.",
+      "source": "kbd"
+    },
+    {
+      "label": "Skeleton",
+      "description": "Placeholder shape shown while content loads.",
+      "source": "skeleton"
+    },
+    {
+      "label": "Select",
+      "description": "Choose one value from a list shown in a popover.",
+      "source": "select"
+    },
+    {
+      "label": "Switch",
+      "description": "On/off toggle for a setting that applies immediately.",
+      "source": "switch"
+    },
+    {
+      "label": "Slider",
+      "description": "Pick a value or range by dragging along a track.",
+      "source": "slider"
+    },
+    {
+      "label": "Scroll",
+      "description": "Scroll container with custom, consistently styled scrollbars.",
+      "source": "scroll-area"
+    },
+    {
+      "label": "Separator",
+      "description": "Horizontal or vertical divider between content.",
+      "source": "separator"
+    },
+    {
+      "label": "Link",
+      "description": "Inline navigational text. No shadcn component: closest is Button's link variant.",
+      "source": null
+    }
+  ],
+  "molecules": [
+    {
+      "label": "Alert",
+      "description": "Inline callout for important messages; default and destructive variants.",
+      "source": "alert"
+    },
+    {
+      "label": "Tooltip",
+      "description": "Short hint shown on hover or focus of a trigger.",
+      "source": "tooltip"
+    },
+    {
+      "label": "Form Field",
+      "description": "Label, control, description and error message composed as one field.",
+      "source": "field"
+    },
+    {
+      "label": "Search Bar",
+      "description": "Search input with a leading icon and optional actions, composed from Input Group.",
+      "source": "input-group"
+    },
+    {
+      "label": "Breadcrumb",
+      "description": "Hierarchical path to the current page, with links back up.",
+      "source": "breadcrumb"
+    },
+    {
+      "label": "Bubble",
+      "description": "Chat message bubble with optional reactions; can be grouped.",
+      "source": "bubble"
+    },
+    {
+      "label": "Carousel",
+      "description": "Horizontally scrolling set of slides with previous/next controls.",
+      "source": "carousel"
+    },
+    {
+      "label": "Chat",
+      "description": "A single chat message: avatar, header, content and footer.",
+      "source": "message"
+    },
+    {
+      "label": "Hover Card",
+      "description": "Rich preview card shown when hovering a link or trigger.",
+      "source": "hover-card"
+    },
+    {
+      "label": "OTP Input",
+      "description": "Segmented input for one-time passcodes.",
+      "source": "input-otp"
+    },
+    {
+      "label": "Textarea",
+      "description": "Multi-line text field.",
+      "source": "textarea"
+    },
+    {
+      "label": "Empty Placeholder",
+      "description": "Empty-state message with optional icon and action.",
+      "source": "empty"
+    },
+    {
+      "label": "Product Thumbnail",
+      "description": "Product image with name and price. Custom composition, no shadcn source.",
+      "source": null
+    },
+    {
+      "label": "Popover",
+      "description": "Floating panel anchored to a trigger, for rich interactive content.",
+      "source": "popover"
+    },
+    {
+      "label": "Resizable Panel",
+      "description": "Panels separated by draggable handles that resize them.",
+      "source": "resizable"
+    },
+    {
+      "label": "Toast",
+      "description": "Brief, auto-dismissing notification.",
+      "source": "toast"
+    }
+  ],
+  "organisms": [
+    {
+      "label": "Accordion",
+      "description": "Stacked sections that expand and collapse.",
+      "source": "accordion"
+    },
+    {
+      "label": "Dialog",
+      "description": "Modal window over a dimmed backdrop that captures focus until dismissed.",
+      "source": "dialog"
+    },
+    {
+      "label": "File Upload",
+      "description": "Drop zone or picker for selecting and uploading files. Custom composition, no shadcn source.",
+      "source": null
+    },
+    {
+      "label": "Attachment",
+      "description": "File attachment card: media, title, description and actions; can be grouped.",
+      "source": "attachment"
+    },
+    {
+      "label": "Card",
+      "description": "Container grouping related content: header, content and footer.",
+      "source": "card"
+    },
+    {
+      "label": "Code Block",
+      "description": "Syntax-highlighted code with a copy action.",
+      "source": "code-block"
+    },
+    {
+      "label": "Collapse Menu",
+      "description": "Navigation group that expands and collapses.",
+      "source": "collapsible"
+    },
+    {
+      "label": "Chat Window",
+      "description": "Scrolling message thread that stays pinned to the latest message.",
+      "source": "message-scroller"
+    },
+    {
+      "label": "Overlap Menu",
+      "description": "Command palette: searchable list of actions, often opened with Cmd + K.",
+      "source": "command"
+    },
+    {
+      "label": "Overlay",
+      "description": "Dimmed backdrop behind dialogs, sheets and drawers. shadcn has no standalone component; each renders its own overlay part.",
+      "source": null
+    },
+    {
+      "label": "Context Menu",
+      "description": "Menu opened by right-click or long-press on an element.",
+      "source": "context-menu"
+    },
+    {
+      "label": "Dropdown Menu",
+      "description": "Menu of actions opened from a button.",
+      "source": "dropdown-menu"
+    },
+    {
+      "label": "Navigation Menu",
+      "description": "Site navigation with dropdown panels of links.",
+      "source": "navigation-menu"
+    },
+    {
+      "label": "Sidebar",
+      "description": "Collapsible app sidebar for primary navigation.",
+      "source": "sidebar"
+    },
+    {
+      "label": "User Profile Widget",
+      "description": "Avatar, name and account actions. Custom composition, no shadcn source.",
+      "source": null
+    },
+    {
+      "label": "Data Table",
+      "description": "Sortable, filterable, paginated table. A shadcn recipe on Table + TanStack Table.",
+      "source": "table"
+    },
+    {
+      "label": "Footer",
+      "description": "Page footer with links and legal text. Custom composition, no shadcn source.",
+      "source": null
+    },
+    {
+      "label": "Modal",
+      "description": "Alias of Dialog.",
+      "source": "dialog"
+    },
+    {
+      "label": "Drawer",
+      "description": "Panel that slides in from the bottom edge, mobile-friendly.",
+      "source": "drawer"
+    },
+    {
+      "label": "Sheet",
+      "description": "Panel that slides in from any screen edge, for secondary content.",
+      "source": "sheet"
+    },
+    {
+      "label": "Tabs",
+      "description": "Switch between views that share the same space.",
+      "source": "tabs"
+    },
+    {
+      "label": "Trace",
+      "description": "AI agent trace: chain-of-thought, tool calls, sources and tasks in collapsible rows.",
+      "source": "trace"
+    },
+    {
+      "label": "Date Picker",
+      "description": "Pick a date or range from a calendar in a popover. A shadcn recipe on Calendar + Popover.",
+      "source": "calendar"
+    },
+    {
+      "label": "Menu Bar",
+      "description": "Desktop-style horizontal menu bar (File, Edit, View...).",
+      "source": "menubar"
+    },
+    {
+      "label": "Pagination",
+      "description": "Navigate between pages of results.",
+      "source": "pagination"
+    },
+    {
+      "label": "Questionnaire",
+      "description": "Multi-step question flow with choices, progress, and previous/next/skip/submit.",
+      "source": "questionnaire"
+    },
+    {
+      "label": "Snackbar",
+      "description": "Alias of Toast.",
+      "source": "toast"
+    }
+  ]
+}
