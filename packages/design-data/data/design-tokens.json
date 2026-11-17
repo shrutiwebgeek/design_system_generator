@@ -9,7 +9,7 @@
   "primitive": {
     "color": {
       "blue": {
-        "50":  { "value": "#EFF6FF" },
+        "50": { "value": "#EFF6FF" },
         "100": { "value": "#DBEAFE" },
         "200": { "value": "#BFDBFE" },
         "300": { "value": "#93C5FD" },
@@ -22,7 +22,7 @@
         "950": { "value": "#172554" }
       },
       "sky": {
-        "50":  { "value": "#F0F9FF" },
+        "50": { "value": "#F0F9FF" },
         "100": { "value": "#E0F2FE" },
         "200": { "value": "#BAE6FD" },
         "300": { "value": "#7DD3FC" },
@@ -35,8 +35,8 @@
         "950": { "value": "#082F49" }
       },
       "neutral": {
-        "0":   { "value": "#FFFFFF" },
-        "50":  { "value": "#F8FAFC" },
+        "0": { "value": "#FFFFFF" },
+        "50": { "value": "#F8FAFC" },
         "100": { "value": "#F1F5F9" },
         "200": { "value": "#E2E8F0" },
         "300": { "value": "#CBD5E1" },
@@ -49,7 +49,7 @@
         "950": { "value": "#020617" }
       },
       "green": {
-        "50":  { "value": "#F0FDF4" },
+        "50": { "value": "#F0FDF4" },
         "100": { "value": "#DCFCE7" },
         "200": { "value": "#BBF7D0" },
         "300": { "value": "#86EFAC" },
@@ -62,7 +62,7 @@
         "950": { "value": "#052E16" }
       },
       "amber": {
-        "50":  { "value": "#FFFBEB" },
+        "50": { "value": "#FFFBEB" },
         "100": { "value": "#FEF3C7" },
         "200": { "value": "#FDE68A" },
         "300": { "value": "#FCD34D" },
@@ -75,7 +75,7 @@
         "950": { "value": "#451A03" }
       },
       "red": {
-        "50":  { "value": "#FEF2F2" },
+        "50": { "value": "#FEF2F2" },
         "100": { "value": "#FEE2E2" },
         "200": { "value": "#FECACA" },
         "300": { "value": "#FCA5A5" },
@@ -101,95 +101,202 @@
     },
 
     "fontSize": {
-      "xs":  { "value": "0.694rem", "description": "1.2^-2 — captions only; ~11px at default root" },
-      "sm":  { "value": "0.833rem", "description": "1.2^-1" },
-      "md":  { "value": "1rem",     "description": "Base" },
-      "lg":  { "value": "1.2rem",   "description": "1.2^1" },
-      "xl":  { "value": "1.44rem",  "description": "1.2^2" },
+      "xs": {
+        "value": "0.694rem",
+        "description": "1.2^-2 — captions only; ~11px at default root"
+      },
+      "sm": { "value": "0.833rem", "description": "1.2^-1" },
+      "md": { "value": "1rem", "description": "Base" },
+      "lg": { "value": "1.2rem", "description": "1.2^1" },
+      "xl": { "value": "1.44rem", "description": "1.2^2" },
       "2xl": { "value": "1.728rem", "description": "1.2^3" },
       "3xl": { "value": "2.074rem", "description": "1.2^4" },
       "4xl": { "value": "2.488rem", "description": "1.2^5" }
     },
 
     "fontWeight": {
-      "regular":  { "value": 400 },
-      "medium":   { "value": 500 },
+      "regular": { "value": 400 },
+      "medium": { "value": 500 },
       "semibold": { "value": 600 },
-      "bold":     { "value": 700 }
+      "bold": { "value": 700 }
     },
 
     "lineHeight": {
-      "tight":   { "value": 1.2,  "description": "Headings" },
-      "normal":  { "value": 1.5,  "description": "Body" },
+      "tight": { "value": 1.2, "description": "Headings" },
+      "normal": { "value": 1.5, "description": "Body" },
       "relaxed": { "value": 1.75, "description": "Long-form" }
     },
 
     "spacing": {
       "none": { "value": "0px" },
-      "xs":  { "value": "4px" },
-      "sm":  { "value": "8px" },
-      "md":  { "value": "16px" },
-      "lg":  { "value": "24px" },
-      "xl":  { "value": "32px" },
+      "xs": { "value": "4px" },
+      "sm": { "value": "8px" },
+      "md": { "value": "16px" },
+      "lg": { "value": "24px" },
+      "xl": { "value": "32px" },
       "2xl": { "value": "48px" }
     },
 
     "size": {
       "control": {
-        "xs": { "value": "20px", "description": "Badge and inline field height" },
+        "xs": {
+          "value": "20px",
+          "description": "Badge and inline field height"
+        },
         "sm": { "value": "32px", "description": "Small button/input height" },
         "md": { "value": "36px", "description": "Default button/input height" },
         "lg": { "value": "40px", "description": "Large button/input height" }
       },
       "icon": {
-        "sm": { "value": "12px", "description": "Icons in small controls, badges, checkbox tick" },
+        "sm": {
+          "value": "12px",
+          "description": "Icons in small controls, badges, checkbox tick"
+        },
         "md": { "value": "16px", "description": "Default inline icon" }
       }
     },
 
     "radius": {
       "none": { "value": "0px" },
-      "sm":   { "value": "4px" },
-      "md":   { "value": "8px" },
-      "lg":   { "value": "12px" },
+      "sm": { "value": "4px" },
+      "md": { "value": "8px" },
+      "lg": { "value": "12px" },
       "full": { "value": "9999px", "description": "Pills and circles" }
     },
 
     "borderWidth": {
-      "thin":  { "value": "1px" },
+      "thin": { "value": "1px" },
       "thick": { "value": "2px", "description": "Focus rings, emphasis" }
     },
 
     "shadow": {
       "sm": {
-        "value": { "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px", "color": "#0F172A14" },
+        "value": {
+          "offsetX": "0px",
+          "offsetY": "1px",
+          "blur": "2px",
+          "spread": "0px",
+          "color": "#0F172A14"
+        },
         "description": "Mode-free. Dark mode conveys elevation via surface.raised, not shadow."
       },
       "md": {
-        "value": { "offsetX": "0px", "offsetY": "4px", "blur": "8px", "spread": "-2px", "color": "#0F172A1F" }
+        "value": {
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "8px",
+          "spread": "-2px",
+          "color": "#0F172A1F"
+        }
       },
       "lg": {
-        "value": { "offsetX": "0px", "offsetY": "12px", "blur": "24px", "spread": "-4px", "color": "#0F172A29" }
+        "value": {
+          "offsetX": "0px",
+          "offsetY": "12px",
+          "blur": "24px",
+          "spread": "-4px",
+          "color": "#0F172A29"
+        }
       }
     }
   },
 
   "semantic": {
     "typography": {
-      "display": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.4xl}", "fontWeight": "{primitive.fontWeight.bold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Hero and landing headlines" },
+      "display": {
+        "value": {
+          "fontFamily": "{primitive.fontFamily.sans}",
+          "fontSize": "{primitive.fontSize.4xl}",
+          "fontWeight": "{primitive.fontWeight.bold}",
+          "lineHeight": "{primitive.lineHeight.tight}"
+        },
+        "description": "Hero and landing headlines"
+      },
       "heading": {
-        "lg": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.3xl}", "fontWeight": "{primitive.fontWeight.semibold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Page title" },
-        "md": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.2xl}", "fontWeight": "{primitive.fontWeight.semibold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Section title" },
-        "sm": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.xl}", "fontWeight": "{primitive.fontWeight.semibold}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Card and dialog title" }
+        "lg": {
+          "value": {
+            "fontFamily": "{primitive.fontFamily.sans}",
+            "fontSize": "{primitive.fontSize.3xl}",
+            "fontWeight": "{primitive.fontWeight.semibold}",
+            "lineHeight": "{primitive.lineHeight.tight}"
+          },
+          "description": "Page title"
+        },
+        "md": {
+          "value": {
+            "fontFamily": "{primitive.fontFamily.sans}",
+            "fontSize": "{primitive.fontSize.2xl}",
+            "fontWeight": "{primitive.fontWeight.semibold}",
+            "lineHeight": "{primitive.lineHeight.tight}"
+          },
+          "description": "Section title"
+        },
+        "sm": {
+          "value": {
+            "fontFamily": "{primitive.fontFamily.sans}",
+            "fontSize": "{primitive.fontSize.xl}",
+            "fontWeight": "{primitive.fontWeight.semibold}",
+            "lineHeight": "{primitive.lineHeight.tight}"
+          },
+          "description": "Card and dialog title"
+        }
       },
       "body": {
-        "lg": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.lg}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Lead paragraph" },
-        "md": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.md}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Default body copy" },
-        "sm": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.sm}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Dense UI copy, table cells" }
+        "lg": {
+          "value": {
+            "fontFamily": "{primitive.fontFamily.sans}",
+            "fontSize": "{primitive.fontSize.lg}",
+            "fontWeight": "{primitive.fontWeight.regular}",
+            "lineHeight": "{primitive.lineHeight.normal}"
+          },
+          "description": "Lead paragraph"
+        },
+        "md": {
+          "value": {
+            "fontFamily": "{primitive.fontFamily.sans}",
+            "fontSize": "{primitive.fontSize.md}",
+            "fontWeight": "{primitive.fontWeight.regular}",
+            "lineHeight": "{primitive.lineHeight.normal}"
+          },
+          "description": "Default body copy"
+        },
+        "sm": {
+          "value": {
+            "fontFamily": "{primitive.fontFamily.sans}",
+            "fontSize": "{primitive.fontSize.sm}",
+            "fontWeight": "{primitive.fontWeight.regular}",
+            "lineHeight": "{primitive.lineHeight.normal}"
+          },
+          "description": "Dense UI copy, table cells"
+        }
       },
-      "label":   { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.sm}", "fontWeight": "{primitive.fontWeight.medium}", "lineHeight": "{primitive.lineHeight.tight}" }, "description": "Form labels, buttons" },
-      "caption": { "value": { "fontFamily": "{primitive.fontFamily.sans}", "fontSize": "{primitive.fontSize.xs}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Helper text, timestamps" },
-      "code":    { "value": { "fontFamily": "{primitive.fontFamily.mono}", "fontSize": "{primitive.fontSize.sm}", "fontWeight": "{primitive.fontWeight.regular}", "lineHeight": "{primitive.lineHeight.normal}" }, "description": "Inline code and code blocks" }
+      "label": {
+        "value": {
+          "fontFamily": "{primitive.fontFamily.sans}",
+          "fontSize": "{primitive.fontSize.sm}",
+          "fontWeight": "{primitive.fontWeight.medium}",
+          "lineHeight": "{primitive.lineHeight.tight}"
+        },
+        "description": "Form labels, buttons"
+      },
+      "caption": {
+        "value": {
+          "fontFamily": "{primitive.fontFamily.sans}",
+          "fontSize": "{primitive.fontSize.xs}",
+          "fontWeight": "{primitive.fontWeight.regular}",
+          "lineHeight": "{primitive.lineHeight.normal}"
+        },
+        "description": "Helper text, timestamps"
+      },
+      "code": {
+        "value": {
+          "fontFamily": "{primitive.fontFamily.mono}",
+          "fontSize": "{primitive.fontSize.sm}",
+          "fontWeight": "{primitive.fontWeight.regular}",
+          "lineHeight": "{primitive.lineHeight.normal}"
+        },
+        "description": "Inline code and code blocks"
+      }
     }
   },
 
@@ -197,64 +304,142 @@
     "light": {
       "color": {
         "surface": {
-          "default": { "value": "{primitive.color.neutral.50}",  "description": "Page background" },
-          "raised":  { "value": "{primitive.color.neutral.0}",   "description": "Cards, popovers" },
-          "sunken":  { "value": "{primitive.color.neutral.100}", "description": "Wells, input backgrounds" },
-          "hover":   { "value": "{primitive.color.neutral.100}", "description": "Hover background for ghost/outline controls and menu items" }
+          "default": {
+            "value": "{primitive.color.neutral.50}",
+            "description": "Page background"
+          },
+          "raised": {
+            "value": "{primitive.color.neutral.0}",
+            "description": "Cards, popovers"
+          },
+          "sunken": {
+            "value": "{primitive.color.neutral.100}",
+            "description": "Wells, input backgrounds"
+          },
+          "hover": {
+            "value": "{primitive.color.neutral.100}",
+            "description": "Hover background for ghost/outline controls and menu items"
+          }
         },
         "text": {
-          "default": { "value": "{primitive.color.neutral.900}", "description": "Body and headings" },
-          "muted":   { "value": "{primitive.color.neutral.600}", "description": "Secondary copy, labels" },
-          "inverse": { "value": "{primitive.color.neutral.0}",   "description": "Text on action.primary" }
+          "default": {
+            "value": "{primitive.color.neutral.900}",
+            "description": "Body and headings"
+          },
+          "muted": {
+            "value": "{primitive.color.neutral.600}",
+            "description": "Secondary copy, labels"
+          },
+          "inverse": {
+            "value": "{primitive.color.neutral.0}",
+            "description": "Text on action.primary"
+          }
         },
         "border": {
-          "default": { "value": "{primitive.color.neutral.200}", "description": "Dividers, card edges" },
-          "strong":  { "value": "{primitive.color.neutral.500}", "description": "Input borders" }
+          "default": {
+            "value": "{primitive.color.neutral.200}",
+            "description": "Dividers, card edges"
+          },
+          "strong": {
+            "value": "{primitive.color.neutral.500}",
+            "description": "Input borders"
+          }
         },
         "action": {
-          "primary":      { "value": "{primitive.color.blue.600}", "description": "Primary button bg, links" },
+          "primary": {
+            "value": "{primitive.color.blue.600}",
+            "description": "Primary button bg, links"
+          },
           "primaryHover": { "value": "{primitive.color.blue.700}" },
-          "secondary":    { "value": "{primitive.color.neutral.100}", "description": "Secondary button bg" }
+          "secondary": {
+            "value": "{primitive.color.neutral.100}",
+            "description": "Secondary button bg"
+          }
         },
         "feedback": {
           "success": { "value": "{primitive.color.green.700}" },
           "warning": { "value": "{primitive.color.amber.700}" },
-          "danger":  { "value": "{primitive.color.red.800}", "description": "Darker than red.600 so it passes AA on its own 10-20% tint (Base UI destructive button)" },
-          "info":    { "value": "{primitive.color.sky.700}" }
+          "danger": {
+            "value": "{primitive.color.red.800}",
+            "description": "Darker than red.600 so it passes AA on its own 10-20% tint (Base UI destructive button)"
+          },
+          "info": { "value": "{primitive.color.sky.700}" }
         },
-        "focus": { "value": "{primitive.color.blue.500}", "description": "Focus ring" }
+        "focus": {
+          "value": "{primitive.color.blue.500}",
+          "description": "Focus ring"
+        }
       }
     },
 
     "dark": {
       "color": {
         "surface": {
-          "default": { "value": "{primitive.color.neutral.900}", "description": "Page background" },
-          "raised":  { "value": "{primitive.color.neutral.800}", "description": "Lighter than default — elevation without shadow" },
-          "sunken":  { "value": "{primitive.color.neutral.950}", "description": "Wells, input backgrounds" },
-          "hover":   { "value": "{primitive.color.neutral.700}", "description": "Hover background for ghost/outline controls and menu items" }
+          "default": {
+            "value": "{primitive.color.neutral.900}",
+            "description": "Page background"
+          },
+          "raised": {
+            "value": "{primitive.color.neutral.800}",
+            "description": "Lighter than default — elevation without shadow"
+          },
+          "sunken": {
+            "value": "{primitive.color.neutral.950}",
+            "description": "Wells, input backgrounds"
+          },
+          "hover": {
+            "value": "{primitive.color.neutral.700}",
+            "description": "Hover background for ghost/outline controls and menu items"
+          }
         },
         "text": {
-          "default": { "value": "{primitive.color.neutral.50}",  "description": "Body and headings" },
-          "muted":   { "value": "{primitive.color.neutral.400}", "description": "Secondary copy, labels" },
-          "inverse": { "value": "{primitive.color.neutral.950}", "description": "Text on action.primary" }
+          "default": {
+            "value": "{primitive.color.neutral.50}",
+            "description": "Body and headings"
+          },
+          "muted": {
+            "value": "{primitive.color.neutral.400}",
+            "description": "Secondary copy, labels"
+          },
+          "inverse": {
+            "value": "{primitive.color.neutral.950}",
+            "description": "Text on action.primary"
+          }
         },
         "border": {
-          "default": { "value": "{primitive.color.neutral.700}", "description": "Dividers, card edges" },
-          "strong":  { "value": "{primitive.color.neutral.500}", "description": "Input borders" }
+          "default": {
+            "value": "{primitive.color.neutral.700}",
+            "description": "Dividers, card edges"
+          },
+          "strong": {
+            "value": "{primitive.color.neutral.500}",
+            "description": "Input borders"
+          }
         },
         "action": {
-          "primary":      { "value": "{primitive.color.blue.400}", "description": "Primary button bg, links" },
+          "primary": {
+            "value": "{primitive.color.blue.400}",
+            "description": "Primary button bg, links"
+          },
           "primaryHover": { "value": "{primitive.color.blue.300}" },
-          "secondary":    { "value": "{primitive.color.neutral.700}", "description": "Secondary button bg" }
+          "secondary": {
+            "value": "{primitive.color.neutral.700}",
+            "description": "Secondary button bg"
+          }
         },
         "feedback": {
           "success": { "value": "{primitive.color.green.400}" },
           "warning": { "value": "{primitive.color.amber.400}" },
-          "danger":  { "value": "{primitive.color.red.200}", "description": "Lighter than red.400 so it passes AA on its own 20-30% tint (Base UI destructive button)" },
-          "info":    { "value": "{primitive.color.sky.400}" }
+          "danger": {
+            "value": "{primitive.color.red.200}",
+            "description": "Lighter than red.400 so it passes AA on its own 20-30% tint (Base UI destructive button)"
+          },
+          "info": { "value": "{primitive.color.sky.400}" }
         },
-        "focus": { "value": "{primitive.color.blue.300}", "description": "Focus ring" }
+        "focus": {
+          "value": "{primitive.color.blue.300}",
+          "description": "Focus ring"
+        }
       }
     }
   }

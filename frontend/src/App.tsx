@@ -15,8 +15,12 @@ function App() {
         {components.isError && <p role="alert">{components.error.message}</p>}
         {components.data && (
           <p>
-            {components.data.filter((c) => c.available).length} of {components.data.length} available:{" "}
-            {components.data.filter((c) => c.available).map((c) => c.label).join(", ")}
+            {components.data.filter((c) => c.available).length} of{" "}
+            {components.data.length} available:{" "}
+            {components.data
+              .filter((c) => c.available)
+              .map((c) => c.label)
+              .join(", ")}
           </p>
         )}
       </section>
@@ -32,7 +36,12 @@ function App() {
               {button.data.warnings.map((w) => (
                 <li key={w.original}>
                   <code>{w.original}</code>: {w.reason}
-                  {w.replacement && <> → <code>{w.replacement}</code></>}
+                  {w.replacement && (
+                    <>
+                      {" "}
+                      → <code>{w.replacement}</code>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>
