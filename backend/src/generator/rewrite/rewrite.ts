@@ -1,6 +1,6 @@
 import ts from 'typescript'
 import type { Mapping, RewriteGroup, TokenFile } from '@dsg/design-data'
-import { parsePx, resolvePath } from './tokens.ts'
+import { parsePx, resolvePath } from '../tokens.ts'
 
 export type WarningReason =
   | 'snapped' //   off-scale step, replaced by the nearest token (tie-break per mapping)

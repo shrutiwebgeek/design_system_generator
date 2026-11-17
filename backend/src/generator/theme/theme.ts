@@ -1,5 +1,5 @@
 import type { Mapping, TokenFile } from '@dsg/design-data'
-import { resolvePath, type Resolved } from './tokens.ts'
+import { resolvePath, type Resolved } from '../tokens.ts'
 
 const SHADOW_FIELDS = ['offsetX', 'offsetY', 'blur', 'spread', 'color'] as const
 const TYPE_FIELDS: Record<string, string> = {
