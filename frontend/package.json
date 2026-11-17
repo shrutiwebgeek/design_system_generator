@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dsg/design-data": "workspace:*",
     "@tailwindcss/vite": "^4.3.5",
+    "@tanstack/react-query": "^5.108.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.5"
