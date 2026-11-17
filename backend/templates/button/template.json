@@ -1,0 +1,21 @@
+{
+  "name": "button",
+  "style": "base-vega",
+  "sourceUrl": "https://ui.shadcn.com/r/styles/base-vega/button.json",
+  "fetchedAt": "2026-11-17T14:41:58.091Z",
+  "registryDependencies": [],
+  "registryNpmDependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "file": "button.tsx",
+      "sha256": "fe8220afc0ec9b62c7a520f4e6eb0b56b3b9e951eb963183c29d274395ee476c",
+      "npmImports": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn"
+      ]
+    }
+  ]
+}
