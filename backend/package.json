@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "templates:sync": "node scripts/templates-sync.ts"
+  },
+  "dependencies": {
+    "@dsg/design-data": "workspace:*",
+    "cn": "^0.5.2",
+    "express": "^5.3.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~6.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.19.2",
+    "vitest": "^5.1.0"
+  }
+}

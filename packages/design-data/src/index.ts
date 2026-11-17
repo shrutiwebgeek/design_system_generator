@@ -49,6 +49,8 @@ export interface Mapping {
   theme: Record<string, string>
   /** @utility name → semantic typography path. The "description" key is documentation. */
   textStyles: Record<string, string>
+  /** Module specifier → replacement in generated components. The "description" key is documentation. */
+  imports: Record<string, string>
   rewrite: {
     unmapped: string
     tieBreak: string
