@@ -17,5 +17,5 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true
   },
-  "include": ["src", "scripts", "vitest.config.ts"]
+  "include": ["src", "scripts", "vitest.config.ts", "vitest.generated-setup.ts"]
 }
