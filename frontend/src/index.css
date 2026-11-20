@@ -1,1 +1,131 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Inter Variable", sans-serif;
+  --color-editor: var(--editor);
+  --color-editor-foreground: var(--editor-foreground);
+  --color-editor-line-number: var(--editor-line-number);
+  --color-editor-tabs: var(--editor-tabs);
+  --color-editor-tab-foreground: var(--editor-tab-foreground);
+  --color-editor-tab-inactive-foreground: var(--editor-tab-inactive-foreground);
+  --color-editor-border: var(--editor-border);
+  --color-editor-focus: var(--editor-focus);
+  --color-terminal-foreground: var(--terminal-foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Tool chrome palette, light only. Built from four brand colors:
+ * cream #F5EFE5 (lightened from #FFEED6 on 2026-11-20), sage #A5AF79,
+ * bronze #827148, apricot #E8A07C.
+ * Derived shades keep bronze's OKLCH hue and chroma and change only lightness;
+ * mixes ("x% apricot into cream") are plain sRGB mixes with the cream.
+ * Contrast is WCAG 2 for text (4.5:1) and non-text (3:1), checked at rest and
+ * on Base UI's hover layers (primary/80, the 5% secondary mix, destructive/10 and /20).
+ */
+:root {
+  --background: #f5efe5; /* cream */
+  --foreground: #2b1d00; /* bronze, L 0.24: 14.36 on background */
+  --card: #faf7f2; /* cream halfway to white */
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  /* Bronze, L 0.46. Exact bronze fails: white on its primary/80 hover is ~3.3. */
+  --primary: #66562e; /* white text 7.15 at rest, 4.56 on hover; as link text 6.25 */
+  --primary-foreground: #ffffff;
+  --secondary: #a5af79; /* sage */
+  --secondary-foreground: var(--foreground); /* 7.05 at rest, 6.43 on hover */
+  --muted: #f1d7c6; /* 30% apricot into cream; ghost, outline and menu hovers */
+  --muted-foreground: #6c5c33; /* bronze, L 0.48: 5.71 background, 6.11 card, 4.76 muted */
+  --accent: #e8a07c; /* apricot */
+  --accent-foreground: var(--foreground); /* 7.63 */
+  --destructive: #a9140b; /* text on its own /10 tint 5.53, on the /20 hover 4.62 */
+  --border: #b6aa8f; /* darker dividers: 55% bronze into cream, 2.02 background */
+  --input: #96845b; /* control outlines, 3:1 rule: 3.19 background, 3.42 card */
+  --ring: #827148; /* bronze: 4.17 as a solid border; the /50 halo alone is under 2 */
+  /* Charts: shadcn defaults, not tuned to the palette yet. */
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--muted);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  /*
+   * Code and Tests: a VS Code Dark+ editor, and its terminal for rewrite warnings.
+   * Values are VS Code's Dark+ defaults (from training, not checked against its source);
+   * token colors come from Shiki's dark-plus theme (src/lib/highlighter.tsx).
+   */
+  --editor: #1e1e1e;
+  --editor-foreground: #d4d4d4; /* 11.25 */
+  --editor-line-number: #858585; /* 4.52 */
+  --editor-tabs: #252526; /* tab bar behind the active tab */
+  --editor-tab-foreground: #ffffff; /* 16.67 on the active tab */
+  --editor-tab-inactive-foreground: #969696; /* 5.18 on the tab bar */
+  --editor-border: #3c3c3c; /* decorative */
+  --editor-focus: #007fd4; /* VS Code's focus blue: 3.96 editor, 3.64 tab bar */
+  --terminal-foreground: #cccccc; /* 10.38 */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
