@@ -24,16 +24,21 @@ const INITIAL_MODE = config.modes.includes("dark")
  * 0.745, below the cream's 0.868. Cost (her call, 2026-11-20): light mode no longer
  * shows components on their real background.
  * Dark: the token background, full bleed.
- * The mode button is white in both, so it stands out on a dark canvas.
+ * The mode button is outline only (her call): no fill, a border and icon that
+ * contrast with the canvas. Light: border #525252 (5.92 on the grey), icon #171717
+ * (13.58). Dark: translucent white, so it holds on any dark token background:
+ * border white/70 (9.13 on the default #0F172A), icon white (17.85).
  */
 const CANVAS = {
   light: {
     background: "bg-[#e0e0e0]",
-    focus: "focus-visible:outline-[#171717]",
+    button:
+      "border-[#525252] text-[#171717] hover:bg-[#0000000d] focus-visible:outline-[#171717]",
   },
   dark: {
     background: "bg-background",
-    focus: "focus-visible:outline-[#ffffff]",
+    button:
+      "border-[#ffffffb3] text-[#ffffff] hover:bg-[#ffffff1a] focus-visible:outline-[#ffffff]",
   },
 };
 
@@ -135,7 +140,7 @@ function Preview() {
             onClick={switchMode}
             aria-label={`Switch to ${next} mode`}
             title={`Switch to ${next} mode`}
-            className={`inline-flex size-8 items-center justify-center rounded-md border border-[#a3a3a3] bg-[#ffffff] text-[#171717] shadow-sm outline-none hover:bg-[#f5f5f5] focus-visible:outline-2 focus-visible:outline-offset-2 ${canvas.focus}`}
+            className={`inline-flex size-8 items-center justify-center rounded-md border bg-transparent outline-none focus-visible:outline-2 focus-visible:outline-offset-2 ${canvas.button}`}
           >
             <ModeIcon mode={next} />
           </button>

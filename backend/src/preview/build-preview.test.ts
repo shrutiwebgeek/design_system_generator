@@ -100,6 +100,15 @@ describe("buildPreview (Button)", async () => {
     expect(html).toContain(".bg-\\[\\#e0e0e0\\]");
   });
 
+  it("draws the mode button as an outline only, in colors that compile for both canvases", async () => {
+    const { document } = await run(html);
+    expect(modeButton(document).className).toContain("bg-transparent");
+    // No resting fill; only the hover tint (hover:bg-[…]) may set a background.
+    expect(modeButton(document).className).not.toMatch(/(^|\s)bg-\[#/);
+    expect(html).toContain(".border-\\[\\#ffffffb3\\]"); // dark
+    expect(html).toContain(".border-\\[\\#525252\\]"); // light
+  });
+
   it("tells its parent which examples and modes it has, and the one it opened in", async () => {
     const { posted } = await run(html);
     expect(posted).toContainEqual({
