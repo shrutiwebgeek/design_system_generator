@@ -3,11 +3,23 @@ import type {
   GenerateResponse,
 } from "@dsg/design-data/types";
 import { DownloadIcon, Maximize2Icon, Minimize2Icon } from "lucide-react";
-import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 import { useGeneratedComponent, usePreview } from "@/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { usePreviewFrame } from "@/preview-frame";
 
 // The editor pulls in Shiki; load it the first time Code or Tests opens.
@@ -113,26 +125,39 @@ export function Workspace({
                 Tests
               </TabsTrigger>
             </TabsList>
-            <div className="flex items-center gap-2">
-              {/* Zip download is the next step after the UI; the API already returns every file. */}
-              <span className="text-xs text-muted-foreground">Coming soon</span>
-              <Button variant="outline" size="sm" disabled>
-                <DownloadIcon data-icon="inline-start" aria-hidden="true" />
-                Download
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                aria-label={fullScreen ? "Exit full screen" : "Full screen"}
-                title={fullScreen ? "Exit full screen (Esc)" : "Full screen"}
-                onClick={() => onFullScreenChange(!fullScreen)}
+            <div className="flex items-center gap-1">
+              {/* Zip download is the next step after the UI; the API already returns every file.
+                  focusableWhenDisabled: keyboard and screen-reader users can still reach it and
+                  its tooltip (a natively disabled button gets no pointer or focus events).
+                  Base UI sets aria-disabled instead of disabled, so the dimming comes from aria-disabled. */}
+              <IconTip label="Download: coming soon">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  disabled
+                  focusableWhenDisabled
+                  aria-label="Download (coming soon)"
+                  className="aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:bg-transparent"
+                >
+                  <DownloadIcon aria-hidden="true" />
+                </Button>
+              </IconTip>
+              <IconTip
+                label={fullScreen ? "Exit full screen (Esc)" : "Full screen"}
               >
-                {fullScreen ? (
-                  <Minimize2Icon aria-hidden="true" />
-                ) : (
-                  <Maximize2Icon aria-hidden="true" />
-                )}
-              </Button>
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label={fullScreen ? "Exit full screen" : "Full screen"}
+                  onClick={() => onFullScreenChange(!fullScreen)}
+                >
+                  {fullScreen ? (
+                    <Minimize2Icon aria-hidden="true" />
+                  ) : (
+                    <Maximize2Icon aria-hidden="true" />
+                  )}
+                </Button>
+              </IconTip>
             </div>
           </div>
 
@@ -193,6 +218,29 @@ export function Workspace({
         </aside>
       )}
     </>
+  );
+}
+
+/**
+ * Tooltip for the panel's icon buttons. Replaces the native `title`, which Chrome
+ * shows only after about a second of hovering, in small system text, and never on
+ * keyboard focus. This one opens at once on hover and on focus, in 14px text
+ * (shadcn's default is 12px), below the button so it doesn't cover the heading.
+ */
+function IconTip({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactElement;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={children} />
+      <TooltipContent side="bottom" className="px-3 py-2 text-sm">
+        {label}
+      </TooltipContent>
+    </Tooltip>
   );
 }
 

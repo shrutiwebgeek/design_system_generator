@@ -16,6 +16,27 @@ const INITIAL_MODE = config.modes.includes("dark")
   ? "dark"
   : config.defaultMode;
 
+/**
+ * The canvas behind the example.
+ * Light: a neutral grey in tool hex (so no token file can restyle it), not the
+ * token background. A full-bleed light token background was the brightest, largest
+ * surface on screen and cool against the tool's warm cream; #E0E0E0 has luminance
+ * 0.745, below the cream's 0.868. Cost (her call, 2026-11-20): light mode no longer
+ * shows components on their real background.
+ * Dark: the token background, full bleed.
+ * The mode button is white in both, so it stands out on a dark canvas.
+ */
+const CANVAS = {
+  light: {
+    background: "bg-[#e0e0e0]",
+    focus: "focus-visible:outline-[#171717]",
+  },
+  dark: {
+    background: "bg-background",
+    focus: "focus-visible:outline-[#ffffff]",
+  },
+};
+
 /** Same convention as the generated theme.css: default mode = no class. */
 function applyMode(mode: string) {
   const root = document.documentElement;
@@ -101,16 +122,20 @@ function Preview() {
   };
 
   const example = examples.find((e) => e.name === exampleName) ?? examples[0];
+  const canvas = mode === "dark" ? CANVAS.dark : CANVAS.light;
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div
+      data-canvas=""
+      className={`flex min-h-screen flex-col text-foreground ${canvas.background}`}
+    >
       {config.modes.length > 1 && (
-        <div className="flex h-10 shrink-0 items-center justify-end px-2">
+        <div className="flex h-12 shrink-0 items-center justify-end px-3">
           <button
             type="button"
             onClick={switchMode}
             aria-label={`Switch to ${next} mode`}
             title={`Switch to ${next} mode`}
-            className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
+            className={`inline-flex size-8 items-center justify-center rounded-md border border-[#a3a3a3] bg-[#ffffff] text-[#171717] shadow-sm outline-none hover:bg-[#f5f5f5] focus-visible:outline-2 focus-visible:outline-offset-2 ${canvas.focus}`}
           >
             <ModeIcon mode={next} />
           </button>
@@ -118,7 +143,7 @@ function Preview() {
       )}
       <main
         aria-label={example.name}
-        className="flex flex-1 items-center justify-center p-8"
+        className="flex flex-1 items-center justify-center overflow-auto px-8 pb-8"
       >
         {example.render()}
       </main>

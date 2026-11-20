@@ -86,6 +86,20 @@ describe("buildPreview (Button)", async () => {
     expect(isDark(document)).toBe(true);
   });
 
+  it("shows dark mode on the token background and light mode on a neutral grey", async () => {
+    const { document } = await run(html);
+    const canvas = () => document.querySelector("[data-canvas]")!;
+    expect(canvas().className).toContain("bg-background");
+    expect(canvas().querySelector("[data-stage-card]")).toBeNull();
+
+    modeButton(document).click();
+    await tick(20);
+    expect(canvas().className).toContain("bg-[#e0e0e0]");
+    expect(canvas().className).not.toContain("bg-background");
+    // The grey is tool chrome in hex, and must actually compile.
+    expect(html).toContain(".bg-\\[\\#e0e0e0\\]");
+  });
+
   it("tells its parent which examples and modes it has, and the one it opened in", async () => {
     const { posted } = await run(html);
     expect(posted).toContainEqual({
