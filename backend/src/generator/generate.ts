@@ -53,6 +53,15 @@ async function readOptional(url: URL): Promise<string | null> {
   }
 }
 
+/** A template can be previewed once it has a <source>.examples.tsx. */
+export async function hasExamples(source: string): Promise<boolean> {
+  if (!(await hasTemplate(source))) return false;
+  const examples = await readOptional(
+    new URL(`${source}/${source}.examples.tsx`, TEMPLATES_DIR),
+  );
+  return examples !== null;
+}
+
 /** npm packages the user installs, with the versions this backend was verified against. */
 function dependenciesFor(meta: TemplateMeta): Record<string, string> {
   const installed: Record<string, string> = backendPackage.dependencies;
@@ -96,6 +105,18 @@ export async function generateComponent(
     new URL(`${source}/${testFile}`, TEMPLATES_DIR),
   );
   if (test !== null) files[testFile] = test;
+
+  // Examples are a usage reference that ships, so their layout classes go
+  // through the same rewrite as the component (gap-2 → gap-ds-sm).
+  const examplesFile = `${source}.examples.tsx`;
+  const examples = await readOptional(
+    new URL(`${source}/${examplesFile}`, TEMPLATES_DIR),
+  );
+  if (examples !== null) {
+    const result = rewriteSource(examples, examplesFile);
+    files[examplesFile] = result.code;
+    for (const w of result.warnings) warnings.set(w.original, w);
+  }
 
   return {
     source,

@@ -105,6 +105,8 @@ export interface ComponentSummary extends ComponentEntry {
   tier: Tier;
   /** A template exists for `source`, so it can be generated. */
   available: boolean;
+  /** The template also has examples, so it can be previewed. */
+  previewable: boolean;
 }
 
 /** POST /api/components/:source/generate */
