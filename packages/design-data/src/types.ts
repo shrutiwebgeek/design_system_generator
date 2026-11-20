@@ -107,6 +107,8 @@ export interface ComponentSummary extends ComponentEntry {
   available: boolean;
   /** The template also has examples, so it can be previewed. */
   previewable: boolean;
+  /** Example names, in file order; [] unless previewable. The tool lists them as files. */
+  examples: string[];
 }
 
 /** POST /api/components/:source/generate */
@@ -127,4 +129,34 @@ export interface GenerateResponse {
 export interface ApiError {
   error: string;
   detail?: string;
+}
+
+/*
+ * postMessage protocol between the tool and the sandboxed preview iframe.
+ * The frame has an opaque origin, so both sides post with targetOrigin "*" and
+ * trust a message by its `event.source` instead. Only names cross, nothing secret.
+ */
+
+/** Frame → tool, on every load: what the preview can show. */
+export interface PreviewReadyMessage {
+  type: "dsg-preview:ready";
+  examples: string[];
+  modes: string[];
+  /** The token file's default mode: the unclassed :root in theme.css. */
+  defaultMode: string;
+  /** The mode the frame opened in: dark when the tokens have it, else defaultMode. */
+  mode: string;
+}
+
+/** Tool → frame: what to show. Unknown names are ignored. */
+export interface PreviewSelectMessage {
+  type: "dsg-preview:select";
+  example: string;
+  mode: string;
+}
+
+/** Frame → tool, when its own mode button switches modes, so the tool can keep the choice. */
+export interface PreviewModeMessage {
+  type: "dsg-preview:mode";
+  mode: string;
 }

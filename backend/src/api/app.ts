@@ -18,6 +18,7 @@ import {
   generateComponent,
   hasExamples,
   hasTemplate,
+  readExampleNames,
   TemplateNotFoundError,
 } from "../generator/generate.ts";
 import {
@@ -94,11 +95,13 @@ export function createApp() {
       for (const entry of componentList[tier]) {
         const available =
           entry.source !== null && (await hasTemplate(entry.source));
+        const previewable = available && (await hasExamples(entry.source!));
         summaries.push({
           ...entry,
           tier,
           available,
-          previewable: available && (await hasExamples(entry.source!)),
+          previewable,
+          examples: previewable ? await readExampleNames(entry.source!) : [],
         });
       }
     }

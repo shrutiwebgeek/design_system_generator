@@ -3,17 +3,41 @@ import { JSDOM } from "jsdom";
 import { describe, expect, it } from "vitest";
 import { buildPreview } from "./build-preview.ts";
 
-/** Run the preview HTML the way the sandboxed iframe would: scripts on. */
+const tick = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Run the preview HTML the way the sandboxed iframe would: scripts on.
+ * Top-level, window.parent is the window itself, so the frame's messages to
+ * its parent land on this window.
+ */
 async function run(html: string) {
   const errors: string[] = [];
+  const posted: unknown[] = [];
   const dom = new JSDOM(html, {
     runScripts: "dangerously",
     pretendToBeVisual: true,
+    beforeParse(window) {
+      window.addEventListener("error", (e) => errors.push(String(e.message)));
+      window.addEventListener("message", (e) => posted.push(e.data));
+    },
   });
-  dom.window.addEventListener("error", (e) => errors.push(String(e.message)));
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  return { document: dom.window.document, errors };
+  await tick(100);
+  const { window } = dom;
+  /** jsdom's postMessage leaves event.source unset, so dispatch the event directly. */
+  const sendFromParent = async (data: unknown, source: unknown = window) => {
+    window.dispatchEvent(
+      new window.MessageEvent("message", {
+        data,
+        source: source as Window,
+      }),
+    );
+    await tick(20); // message events render at default priority, not synchronously like clicks
+  };
+  return { document: window.document, errors, posted, sendFromParent };
 }
+
+const buttons = (document: Document) =>
+  document.querySelectorAll('[data-slot="button"]').length;
 
 describe("buildPreview (Button)", async () => {
   const html = await buildPreview("button", defaultTokens, mapping, "Button");
@@ -44,41 +68,99 @@ describe("buildPreview (Button)", async () => {
     expect(html).not.toMatch(/["\s]gap-2["\s]/);
   });
 
-  it("renders every example section and button without errors", async () => {
+  const isDark = (document: Document) =>
+    document.documentElement.classList.contains("dark");
+  const modeButton = (document: Document) =>
+    document.querySelector<HTMLButtonElement>(
+      'button[aria-label^="Switch to"]',
+    )!;
+
+  it("renders the first example, in dark mode, without errors", async () => {
     const { document, errors } = await run(html);
     expect(errors).toEqual([]);
-    expect(
-      [...document.querySelectorAll("section")].map((s) =>
-        s.getAttribute("aria-label"),
-      ),
-    ).toEqual([
+    expect(document.querySelector("main")?.getAttribute("aria-label")).toBe(
       "Variants",
-      "Sizes",
-      "Icon only",
-      "With icon",
-      "States",
-      "As a link",
-    ]);
-    expect(document.querySelectorAll('[data-slot="button"]')).toHaveLength(19);
+    );
+    // 6 example buttons; the mode button isn't a [data-slot=button].
+    expect(buttons(document)).toBe(6);
+    expect(isDark(document)).toBe(true);
   });
 
-  it("switches modes by class on <html>, like a real app using theme.css", async () => {
-    const { document } = await run(html);
-    const toggle = (mode: string) =>
-      [
-        ...document.querySelectorAll<HTMLButtonElement>(
-          '[role="group"] button',
-        ),
-      ].find((b) => b.textContent === mode)!;
+  it("tells its parent which examples and modes it has, and the one it opened in", async () => {
+    const { posted } = await run(html);
+    expect(posted).toContainEqual({
+      type: "dsg-preview:ready",
+      examples: [
+        "Variants",
+        "Sizes",
+        "Icon only",
+        "With icon",
+        "States",
+        "As a link",
+      ],
+      modes: ["light", "dark"],
+      defaultMode: "light",
+      mode: "dark",
+    });
+  });
 
-    toggle("dark").click();
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(document.documentElement.classList.contains("dark")).toBe(true);
-    expect(toggle("dark").getAttribute("aria-pressed")).toBe("true");
+  it("switches mode with its own button and tells its parent", async () => {
+    const { document, posted } = await run(html);
+    expect(modeButton(document).getAttribute("aria-label")).toBe(
+      "Switch to light mode",
+    );
 
-    toggle("light").click();
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(document.documentElement.classList.contains("dark")).toBe(false);
+    modeButton(document).click();
+    await tick(20);
+    expect(isDark(document)).toBe(false);
+    expect(posted).toContainEqual({ type: "dsg-preview:mode", mode: "light" });
+    expect(modeButton(document).getAttribute("aria-label")).toBe(
+      "Switch to dark mode",
+    );
+
+    modeButton(document).click();
+    await tick(20);
+    expect(isDark(document)).toBe(true);
+    expect(posted).toContainEqual({ type: "dsg-preview:mode", mode: "dark" });
+  });
+
+  it("shows the example and mode its parent selects", async () => {
+    const { document, sendFromParent } = await run(html);
+    await sendFromParent({
+      type: "dsg-preview:select",
+      example: "Icon only",
+      mode: "light",
+    });
+    expect(document.querySelector("main")?.getAttribute("aria-label")).toBe(
+      "Icon only",
+    );
+    expect(buttons(document)).toBe(4);
+    // Mode by class on <html>, like a real app using theme.css.
+    expect(isDark(document)).toBe(false);
+
+    await sendFromParent({
+      type: "dsg-preview:select",
+      example: "Sizes",
+      mode: "dark",
+    });
+    expect(isDark(document)).toBe(true);
+  });
+
+  it("ignores messages from other windows, unknown names and other shapes", async () => {
+    const { document, sendFromParent } = await run(html);
+    const select = {
+      type: "dsg-preview:select",
+      example: "Sizes",
+      mode: "light",
+    };
+    await sendFromParent(select, null); // not from the parent
+    await sendFromParent({ ...select, example: "Nope", mode: "sepia" });
+    await sendFromParent({ type: "dsg-preview:select", example: 1, mode: [] });
+    await sendFromParent("dsg-preview:select");
+    expect(document.querySelector("main")?.getAttribute("aria-label")).toBe(
+      "Variants",
+    );
+    expect(isDark(document)).toBe(true);
   });
 
   it("reflects uploaded tokens", async () => {

@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import type { GenerateResponse, Mapping, TokenFile } from "@dsg/design-data";
 import backendPackage from "../../package.json" with { type: "json" };
+import { exampleNamesIn } from "./example-names.ts";
 import { generateUtilsFile } from "./merge/utils-file.ts";
 import { createRewriter } from "./rewrite/rewrite.ts";
 import { generateThemeCss } from "./theme/theme.ts";
@@ -60,6 +61,15 @@ export async function hasExamples(source: string): Promise<boolean> {
     new URL(`${source}/${source}.examples.tsx`, TEMPLATES_DIR),
   );
   return examples !== null;
+}
+
+/** The template's example names, read without running it; [] without examples. */
+export async function readExampleNames(source: string): Promise<string[]> {
+  if (!(await hasTemplate(source))) return [];
+  const examples = await readOptional(
+    new URL(`${source}/${source}.examples.tsx`, TEMPLATES_DIR),
+  );
+  return examples === null ? [] : exampleNamesIn(examples);
 }
 
 /** npm packages the user installs, with the versions this backend was verified against. */
