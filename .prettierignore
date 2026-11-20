@@ -3,8 +3,9 @@ pnpm-lock.yaml
 **/dist
 
 # Raw shadcn registry source stays byte-identical to the registry
-# (template.json records its sha256). Predefined tests are ours, so they are formatted.
+# (template.json records its sha256). Predefined tests and examples are ours, so they are formatted.
 backend/templates/*/*.tsx
 !backend/templates/*/*.test.tsx
+!backend/templates/*/*.examples.tsx
 # Written by scripts/templates-sync.ts on every sync.
 backend/templates/*/template.json

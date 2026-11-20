@@ -97,6 +97,18 @@ export async function generateComponent(
   );
   if (test !== null) files[testFile] = test;
 
+  // Examples are a usage reference that ships, so their layout classes go
+  // through the same rewrite as the component (gap-2 → gap-ds-sm).
+  const examplesFile = `${source}.examples.tsx`;
+  const examples = await readOptional(
+    new URL(`${source}/${examplesFile}`, TEMPLATES_DIR),
+  );
+  if (examples !== null) {
+    const result = rewriteSource(examples, examplesFile);
+    files[examplesFile] = result.code;
+    for (const w of result.warnings) warnings.set(w.original, w);
+  }
+
   return {
     source,
     files,
