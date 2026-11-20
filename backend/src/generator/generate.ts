@@ -53,6 +53,15 @@ async function readOptional(url: URL): Promise<string | null> {
   }
 }
 
+/** A template can be previewed once it has a <source>.examples.tsx. */
+export async function hasExamples(source: string): Promise<boolean> {
+  if (!(await hasTemplate(source))) return false;
+  const examples = await readOptional(
+    new URL(`${source}/${source}.examples.tsx`, TEMPLATES_DIR),
+  );
+  return examples !== null;
+}
+
 /** npm packages the user installs, with the versions this backend was verified against. */
 function dependenciesFor(meta: TemplateMeta): Record<string, string> {
   const installed: Record<string, string> = backendPackage.dependencies;

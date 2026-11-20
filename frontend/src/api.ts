@@ -7,7 +7,7 @@ import type {
 import { useQuery } from "@tanstack/react-query";
 
 /** Throws with the server's error message, so components can show it. */
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function send(path: string, init?: RequestInit): Promise<Response> {
   const res = await fetch(path, init);
   if (!res.ok) {
     const body = (await res.json().catch(() => null)) as ApiError | null;
@@ -17,8 +17,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
         : `HTTP ${res.status}`,
     );
   }
-  return (await res.json()) as T;
+  return res;
 }
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  return (await (await send(path, init)).json()) as T;
+}
+
+const postTokens = (tokens: GenerateRequest["tokens"]): RequestInit => ({
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ tokens } satisfies GenerateRequest),
+});
 
 export function useComponents() {
   return useQuery({
@@ -40,11 +50,21 @@ export function useGeneratedComponent(
     queryFn: () =>
       request<GenerateResponse>(
         `/api/components/${encodeURIComponent(source)}/generate`,
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ tokens } satisfies GenerateRequest),
-        },
+        postTokens(tokens),
       ),
+  });
+}
+
+/** The server-built preview: one self-contained HTML document for an iframe's srcdoc. */
+export function usePreview(source: string, tokens?: GenerateRequest["tokens"]) {
+  return useQuery({
+    queryKey: ["preview", source, tokens ?? "default"],
+    queryFn: async () =>
+      (
+        await send(
+          `/api/components/${encodeURIComponent(source)}/preview`,
+          postTokens(tokens),
+        )
+      ).text(),
   });
 }

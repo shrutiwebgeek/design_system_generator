@@ -36,9 +36,11 @@ describe("GET /api/components", () => {
       source: "button",
       tier: "atoms",
       available: true,
+      previewable: true,
     });
     expect(list.find((c) => c.label === "Input")).toMatchObject({
       available: false,
+      previewable: false,
     });
     expect(list.find((c) => c.label === "Footer")).toMatchObject({
       source: null,
@@ -131,6 +133,30 @@ describe("POST /api/components/:source/generate", () => {
       body: "{ not json",
     });
     expect(res.status).toBe(400);
+    expect(res.headers.get("content-type")).toMatch(/application\/json/);
+  });
+});
+
+describe("POST /api/components/:source/preview", () => {
+  it("returns one self-contained HTML document", async () => {
+    const res = await post("/api/components/button/preview", {});
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toMatch(/text\/html/);
+    const html = await res.text();
+    expect(html).toMatch(/^<!doctype html>/);
+    expect(html).toContain("<title>Button preview</title>");
+  });
+
+  it("uses the same error contract as generate", async () => {
+    expect((await post("/api/components/input/preview", {})).status).toBe(404);
+    expect(
+      (await post("/api/components/button/preview", { tokens: { a: 1 } }))
+        .status,
+    ).toBe(400);
+    const tokens = structuredClone(defaultTokens);
+    delete (tokens.modes.light.color as Record<string, unknown>).surface;
+    const res = await post("/api/components/button/preview", { tokens });
+    expect(res.status).toBe(422);
     expect(res.headers.get("content-type")).toMatch(/application\/json/);
   });
 });
