@@ -1,4 +1,5 @@
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Mapping, TokenFile } from "@dsg/design-data";
 import { build, type Plugin } from "esbuild";
@@ -6,9 +7,9 @@ import { generateComponent } from "../generator/generate.ts";
 import { compileTailwind } from "../generator/theme/compile-tailwind.ts";
 
 const BACKEND_DIR = fileURLToPath(new URL("../../", import.meta.url));
-const SHELL = fileURLToPath(
-  new URL("../../preview/shell.tsx", import.meta.url),
-);
+/** The page inside the iframe; shell.tsx is its entry. */
+const SHELL_DIR = join(BACKEND_DIR, "preview");
+const SHELL = join(SHELL_DIR, "shell.tsx");
 
 export class NoExamplesError extends Error {}
 /** The generated code didn't bundle: a generator or template bug, not the caller's. */
@@ -21,6 +22,16 @@ function escapeHtml(text: string): string {
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
         c
       ]!,
+  );
+}
+
+/** Every source file of the iframe page, not just the entry: its classes live in all of them. */
+async function shellSources(): Promise<string[]> {
+  const files = await readdir(SHELL_DIR, { recursive: true });
+  return Promise.all(
+    files
+      .filter((f) => /\.tsx?$/.test(f) && !f.endsWith(".d.ts"))
+      .map((f) => readFile(join(SHELL_DIR, f), "utf8")),
   );
 }
 
@@ -109,9 +120,8 @@ export async function buildPreview(
   // Tailwind only emits CSS for classes it sees. Feed it every class string in
   // the generated sources and the shell. Not splitting on single quotes:
   // [&_svg:not([class*='size-'])]:size-4 contains them.
-  const shell = await readFile(SHELL, "utf8");
   const candidates = [
-    shell,
+    ...(await shellSources()),
     ...Object.values(modules).map((m) => m.contents),
   ].flatMap((code) => code.split(/[\s"`]+/));
   const compiler = await compileTailwind(generated.shared["theme.css"]);

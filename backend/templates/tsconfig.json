@@ -1,17 +1,5 @@
 {
-  "compilerOptions": {
-    "target": "es2024",
-    "lib": ["ES2024", "DOM", "DOM.Iterable"],
-    "types": ["node"],
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "noEmit": true,
-    "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true
-  },
+  "extends": "../tsconfig.browser.json",
+  "compilerOptions": { "types": ["node"] },
   "include": ["."]
 }
