@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { loadHighlighter } from "@/lib/highlighter";
+import { loadHighlighter, type HighlightLanguage } from "@/lib/highlighter";
 
-export function useHighlightedCode(value: string, language: string) {
+export function useHighlightedCode(value: string, language: HighlightLanguage) {
   // A trailing newline would render as an extra empty line.
   const code = value.endsWith("\n") ? value.slice(0, -1) : value;
   const [loaded, setLoaded] = React.useState<{
-    language: string;
+    language: HighlightLanguage;
     highlighter: Awaited<ReturnType<typeof loadHighlighter>>;
   } | null>(null);
   const highlighter = loaded?.language === language ? loaded.highlighter : null;
