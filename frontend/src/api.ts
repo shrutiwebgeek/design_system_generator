@@ -6,13 +6,19 @@ import type {
 } from "@dsg/design-data/types";
 import { useQuery } from "@tanstack/react-query";
 
+const isApiError = (body: unknown): body is ApiError =>
+  typeof body === "object" &&
+  body !== null &&
+  "error" in body &&
+  typeof body.error === "string";
+
 /** Throws with the server's error message, so components can show it. */
 async function send(path: string, init?: RequestInit): Promise<Response> {
   const res = await fetch(path, init);
   if (!res.ok) {
-    const body = (await res.json().catch(() => null)) as ApiError | null;
+    const body: unknown = await res.json().catch(() => null);
     throw new Error(
-      body
+      isApiError(body)
         ? [body.error, body.detail].filter(Boolean).join(": ")
         : `HTTP ${res.status}`,
     );
