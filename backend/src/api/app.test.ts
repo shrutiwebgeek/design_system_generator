@@ -71,33 +71,20 @@ describe("POST /api/components/:source/generate", () => {
     // Examples ship tokenized, like the component.
     expect(body.files["button.examples.tsx"]).toContain("gap-ds-sm");
     expect(body.files["button.tsx"]).toContain('from "@/lib/utils"');
-    expect(Object.keys(body.shared).sort()).toEqual([
-      "dependencies.json",
-      "lib/utils.ts",
-      "theme.css",
-    ]);
-    expect(
-      JSON.parse(body.shared["dependencies.json"]).dependencies,
-    ).toMatchObject({
-      "@base-ui/react": expect.any(String),
-      "class-variance-authority": expect.any(String),
-      cn: expect.any(String),
-    });
     expect(body.warnings.map((w) => w.reason)).toEqual([
       "arbitrary",
       "arbitrary",
     ]);
   });
 
-  it("uses uploaded tokens", async () => {
-    const tokens = structuredClone(defaultTokens);
-    (tokens.primitive.spacing as Record<string, { value: string }>).md = {
-      value: "20px",
-    };
-    const body = (await (
-      await post("/api/components/button/generate", { tokens })
-    ).json()) as GenerateResponse;
-    expect(body.shared["theme.css"]).toContain("--spacing-ds-md: 20px;");
+  it("leaves the shared files out: they come with the download", async () => {
+    const res = await post("/api/components/button/generate", {});
+    const body: unknown = await res.json();
+    expect(Object.keys(body as object).sort()).toEqual([
+      "files",
+      "source",
+      "warnings",
+    ]);
   });
 
   it("404s for components without a template", async () => {

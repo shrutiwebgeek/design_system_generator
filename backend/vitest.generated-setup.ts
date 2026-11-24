@@ -7,25 +7,18 @@
 // (default tokens) into backend/.generated/, laid out the way a download is:
 //   .generated/<source>/<source>.tsx + <source>.test.tsx
 //   .generated/lib/utils.ts            (resolved via the "@/lib/utils" alias)
-import { existsSync } from "node:fs";
-import { mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { defaultTokens, mapping } from "@dsg/design-data";
 import { generateComponent } from "./src/generator/generate.ts";
+import { templatesWith } from "./src/generator/templates.ts";
 
 export const GENERATED_DIR = new URL("./.generated/", import.meta.url);
-const TEMPLATES_DIR = new URL("./templates/", import.meta.url);
 
 export async function generateFixtures(): Promise<void> {
   await rm(GENERATED_DIR, { recursive: true, force: true });
   await mkdir(new URL("lib/", GENERATED_DIR), { recursive: true });
 
-  const entries = await readdir(TEMPLATES_DIR, { withFileTypes: true });
-  const sources = entries
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name)
-    .filter((name) =>
-      existsSync(new URL(`${name}/${name}.test.tsx`, TEMPLATES_DIR)),
-    );
+  const sources = templatesWith((name) => `${name}.test.tsx`);
 
   let utils: string | undefined;
   for (const source of sources) {

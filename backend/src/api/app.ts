@@ -1,6 +1,6 @@
 import express, {
   type ErrorRequestHandler,
-  type Request,
+  type RequestHandler,
   type Response,
 } from "express";
 import {
@@ -16,7 +16,6 @@ import {
 } from "@dsg/design-data";
 import {
   generateComponent,
-  hasExamples,
   hasTemplate,
   readExampleNames,
   TemplateNotFoundError,
@@ -45,8 +44,8 @@ function isTokenFile(value: unknown): value is TokenFile {
 }
 
 /** The request's tokens, the defaults when omitted, or null after answering 400. */
-function tokensFrom(req: Request, res: Response): TokenFile | null {
-  const body = (req.body ?? {}) as GenerateRequest;
+function tokensFrom(reqBody: unknown, res: Response): TokenFile | null {
+  const body = (reqBody ?? {}) as GenerateRequest;
   if (body.tokens === undefined) return defaultTokens;
   if (isTokenFile(body.tokens)) return body.tokens;
   res.status(400).json({
@@ -84,6 +83,21 @@ function labelFor(source: string): string {
   return source;
 }
 
+/** A POST route on one component: reads its tokens and answers generation errors. */
+const componentRoute =
+  (
+    handle: (source: string, tokens: TokenFile, res: Response) => Promise<void>,
+  ): RequestHandler<{ source: string }> =>
+  async (req, res) => {
+    const tokens = tokensFrom(req.body, res);
+    if (!tokens) return;
+    try {
+      await handle(req.params.source, tokens, res);
+    } catch (err) {
+      sendGenerationError(res, err);
+    }
+  };
+
 export function createApp() {
   const app = express();
   app.use(express.json({ limit: "1mb" }));
@@ -93,51 +107,47 @@ export function createApp() {
     const summaries: ComponentSummary[] = [];
     for (const tier of tiers) {
       for (const entry of componentList[tier]) {
-        const available =
-          entry.source !== null && (await hasTemplate(entry.source));
-        const previewable = available && (await hasExamples(entry.source!));
+        const { source } = entry;
+        const examples = source === null ? [] : await readExampleNames(source);
         summaries.push({
           ...entry,
           tier,
-          available,
-          previewable,
-          examples: previewable ? await readExampleNames(entry.source!) : [],
+          available: source !== null && (await hasTemplate(source)),
+          previewable: examples.length > 0,
+          examples,
         });
       }
     }
     res.json(summaries);
   });
 
-  app.post("/api/components/:source/generate", async (req, res) => {
-    const tokens = tokensFrom(req, res);
-    if (!tokens) return;
-    try {
-      const result: GenerateResponse = await generateComponent(
-        req.params.source,
+  app.post(
+    "/api/components/:source/generate",
+    componentRoute(async (source, tokens, res) => {
+      const { files, warnings } = await generateComponent(
+        source,
         tokens,
         mapping,
       );
-      res.json(result);
-    } catch (err) {
-      sendGenerationError(res, err);
-    }
-  });
+      // Picked by name: the generated object also has `shared`, which would fit this
+      // type and go out with it. Those files come with the download.
+      res.json({ source, files, warnings } satisfies GenerateResponse);
+    }),
+  );
 
-  app.post("/api/components/:source/preview", async (req, res) => {
-    const tokens = tokensFrom(req, res);
-    if (!tokens) return;
-    try {
+  app.post(
+    "/api/components/:source/preview",
+    componentRoute(async (source, tokens, res) => {
+      // Built before res.type(): a failed build must answer JSON, not HTML.
       const html = await buildPreview(
-        req.params.source,
+        source,
         tokens,
         mapping,
-        labelFor(req.params.source),
+        labelFor(source),
       );
       res.type("html").send(html);
-    } catch (err) {
-      sendGenerationError(res, err);
-    }
-  });
+    }),
+  );
 
   // Malformed JSON bodies and anything unexpected end up here instead of an HTML stack trace.
   const onError: ErrorRequestHandler = (err, _req, res, _next) => {

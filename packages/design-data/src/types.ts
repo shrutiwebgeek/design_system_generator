@@ -117,12 +117,11 @@ export interface GenerateRequest {
   tokens?: TokenFile;
 }
 
+/** What the tool shows. The files every component shares come with the download instead. */
 export interface GenerateResponse {
   source: string;
-  /** The component and its predefined test, keyed by file name. */
+  /** The component, its examples and its predefined test, keyed by file name. */
   files: Record<string, string>;
-  /** Files every component needs once: theme.css, lib/utils.ts, dependencies.json. */
-  shared: Record<string, string>;
   warnings: RewriteWarning[];
 }
 

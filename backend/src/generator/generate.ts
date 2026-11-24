@@ -1,12 +1,12 @@
 import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import type { GenerateResponse, Mapping, TokenFile } from "@dsg/design-data";
 import backendPackage from "../../package.json" with { type: "json" };
 import { exampleNamesIn } from "./example-names.ts";
 import { generateUtilsFile } from "./merge/utils-file.ts";
 import { createRewriter } from "./rewrite/rewrite.ts";
+import { TEMPLATES_DIR } from "./templates.ts";
 import { generateThemeCss } from "./theme/theme.ts";
-
-const TEMPLATES_DIR = new URL("../../templates/", import.meta.url);
 
 /** Registry names only: lowercase, digits, dashes. Anything else could escape the templates dir. */
 const SOURCE_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -19,14 +19,14 @@ interface TemplateMeta {
 
 export class TemplateNotFoundError extends Error {}
 
+const readTemplateFile = (source: string, file: string): Promise<string> =>
+  readFile(join(TEMPLATES_DIR, source, file), "utf8");
+
 async function readTemplateMeta(source: string): Promise<TemplateMeta> {
   if (!SOURCE_NAME.test(source))
     throw new TemplateNotFoundError(`Invalid component name "${source}"`);
   try {
-    const raw = await readFile(
-      new URL(`${source}/template.json`, TEMPLATES_DIR),
-      "utf8",
-    );
+    const raw = await readTemplateFile(source, "template.json");
     return JSON.parse(raw) as TemplateMeta;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT")
@@ -45,30 +45,25 @@ export async function hasTemplate(source: string): Promise<boolean> {
   }
 }
 
-async function readOptional(url: URL): Promise<string | null> {
+async function readOptional(
+  source: string,
+  file: string,
+): Promise<string | null> {
   try {
-    return await readFile(url, "utf8");
+    return await readTemplateFile(source, file);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
     throw error;
   }
 }
 
-/** A template can be previewed once it has a <source>.examples.tsx. */
-export async function hasExamples(source: string): Promise<boolean> {
-  if (!(await hasTemplate(source))) return false;
-  const examples = await readOptional(
-    new URL(`${source}/${source}.examples.tsx`, TEMPLATES_DIR),
-  );
-  return examples !== null;
-}
-
-/** The template's example names, read without running it; [] without examples. */
+/**
+ * The template's example names, read without running it. A template can be
+ * previewed once it has some; [] without a template or an examples file.
+ */
 export async function readExampleNames(source: string): Promise<string[]> {
   if (!(await hasTemplate(source))) return [];
-  const examples = await readOptional(
-    new URL(`${source}/${source}.examples.tsx`, TEMPLATES_DIR),
-  );
+  const examples = await readOptional(source, `${source}.examples.tsx`);
   return examples === null ? [] : exampleNamesIn(examples);
 }
 
@@ -82,6 +77,12 @@ function dependenciesFor(meta: TemplateMeta): Record<string, string> {
   );
 }
 
+/** Everything the generator makes. The preview and the download need `shared`; the API response doesn't carry it. */
+export interface GeneratedComponent extends GenerateResponse {
+  /** Files every component needs once: theme.css, lib/utils.ts, dependencies.json. */
+  shared: Record<string, string>;
+}
+
 /**
  * Template → component files + shared files + warnings.
  * Throws TemplateNotFoundError for unknown components, and plain Errors for
@@ -91,7 +92,7 @@ export async function generateComponent(
   source: string,
   tokens: TokenFile,
   mapping: Mapping,
-): Promise<GenerateResponse> {
+): Promise<GeneratedComponent> {
   const meta = await readTemplateMeta(source);
   // Built first so broken tokens fail before any file work.
   const themeCss = generateThemeCss(tokens, mapping);
@@ -99,34 +100,25 @@ export async function generateComponent(
 
   const files: Record<string, string> = {};
   const warnings = new Map<string, GenerateResponse["warnings"][number]>();
-  for (const { file } of meta.files) {
-    const templateCode = await readFile(
-      new URL(`${meta.name}/${file}`, TEMPLATES_DIR),
-      "utf8",
-    );
-    const result = rewriteSource(templateCode, file);
+  const addRewritten = (file: string, code: string): void => {
+    const result = rewriteSource(code, file);
     files[file] = result.code;
     for (const w of result.warnings) warnings.set(w.original, w);
-  }
+  };
+
+  for (const { file } of meta.files)
+    addRewritten(file, await readTemplateFile(meta.name, file));
 
   // The predefined test ships as-is: it tests behaviour, not classes.
   const testFile = `${source}.test.tsx`;
-  const test = await readOptional(
-    new URL(`${source}/${testFile}`, TEMPLATES_DIR),
-  );
+  const test = await readOptional(source, testFile);
   if (test !== null) files[testFile] = test;
 
   // Examples are a usage reference that ships, so their layout classes go
   // through the same rewrite as the component (gap-2 → gap-ds-sm).
   const examplesFile = `${source}.examples.tsx`;
-  const examples = await readOptional(
-    new URL(`${source}/${examplesFile}`, TEMPLATES_DIR),
-  );
-  if (examples !== null) {
-    const result = rewriteSource(examples, examplesFile);
-    files[examplesFile] = result.code;
-    for (const w of result.warnings) warnings.set(w.original, w);
-  }
+  const examples = await readOptional(source, examplesFile);
+  if (examples !== null) addRewritten(examplesFile, examples);
 
   return {
     source,
