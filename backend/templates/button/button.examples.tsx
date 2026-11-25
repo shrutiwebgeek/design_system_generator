@@ -96,14 +96,4 @@ export const examples: { name: string; render: () => ReactNode }[] = [
       </Row>
     ),
   },
-  {
-    name: "As a link",
-    render: () => (
-      <Row>
-        <Button render={<a href="#as-a-link" />} nativeButton={false}>
-          Go to docs
-        </Button>
-      </Row>
-    ),
-  },
 ];

@@ -37,14 +37,7 @@ describe("GET /api/components", () => {
       tier: "atoms",
       available: true,
       previewable: true,
-      examples: [
-        "Variants",
-        "Sizes",
-        "Icon only",
-        "With icon",
-        "States",
-        "As a link",
-      ],
+      examples: ["Variants", "Sizes", "Icon only", "With icon", "States"],
     });
     expect(list.find((c) => c.label === "Input")).toMatchObject({
       available: false,

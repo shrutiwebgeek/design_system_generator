@@ -113,14 +113,7 @@ describe("buildPreview (Button)", async () => {
     const { posted } = await run(html);
     expect(posted).toContainEqual({
       type: "dsg-preview:ready",
-      examples: [
-        "Variants",
-        "Sizes",
-        "Icon only",
-        "With icon",
-        "States",
-        "As a link",
-      ],
+      examples: ["Variants", "Sizes", "Icon only", "With icon", "States"],
       modes: ["light", "dark"],
       defaultMode: "light",
       mode: "dark",
