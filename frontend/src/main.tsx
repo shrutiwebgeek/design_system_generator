@@ -15,7 +15,6 @@ createRoot(root).render(
   <StrictMode>
     <ErrorBoundary message="Something went wrong.">
       <QueryClientProvider client={queryClient}>
-        {/* shadcn's provider sets the open delay to 0 for every tooltip. */}
         <TooltipProvider>
           <App />
         </TooltipProvider>

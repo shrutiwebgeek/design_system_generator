@@ -10,14 +10,12 @@ import * as styles from "@/styles/sidebar.styles";
 interface TreeFolderProps {
   label: ReactNode;
   kind?: styles.FolderKind;
-  /** Shown instead of the folder that opens and closes. */
   icon?: ReactNode;
   open: boolean;
   onOpenChange: (next: boolean) => void;
   children: ReactNode;
 }
 
-/** A disclosure row (chevron, icon, label) and what it reveals. */
 export function TreeFolder({
   label,
   kind = "folder",

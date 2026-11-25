@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { errorFallback } from "@/styles/app.styles";
 
 interface ErrorBoundaryProps {
-  /** Says what couldn't be shown. */
   message: string;
   children: ReactNode;
 }

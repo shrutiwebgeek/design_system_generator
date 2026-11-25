@@ -8,14 +8,12 @@ import { useSelection } from "./hooks/use-selection";
 import type { WorkspaceTab } from "./lib/workspace-tab";
 import * as styles from "./styles/app.styles";
 
-/** Storybook-style layout: the sidebar on the left, playground in the middle, controls on the right. */
 function App() {
   const components = useComponents();
   const { component, selected, select } = useSelection(components.data);
   const [tab, setTab] = useState<WorkspaceTab>("preview");
   // Lives here, not in Workspace, so dark mode stays on when switching components.
   const [mode, setMode] = useState<string | null>(null);
-  // The middle panel fills the window, like Storybook's full screen.
   const [fullScreen, setFullScreen] = useFullScreen();
 
   return (
@@ -27,7 +25,6 @@ function App() {
           selected={selected}
           onSelect={(next) => {
             select(next);
-            // Picking an example file means "show me this example".
             setTab("preview");
           }}
           hidden={fullScreen}
