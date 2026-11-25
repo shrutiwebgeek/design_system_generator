@@ -18,9 +18,6 @@ export function SidebarSearch({ query, onQueryChange }: SidebarSearchProps) {
         placeholder="Search components"
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") onQueryChange("");
-        }}
         className={styles.searchInput}
       />
       {query !== "" && (
