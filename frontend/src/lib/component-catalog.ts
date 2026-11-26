@@ -11,10 +11,10 @@ export interface ReadyComponent extends ComponentSummary {
   source: string;
 }
 
-/** The open example file: a component and one of its examples. */
+/** The open story: a component and one of its stories. */
 export interface Selection {
   source: string;
-  example: string;
+  story: string;
 }
 
 export const isReady = (c: ComponentSummary): c is ReadyComponent =>

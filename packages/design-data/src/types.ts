@@ -140,10 +140,10 @@ export interface ComponentSummary extends ComponentEntry {
   tier: Tier;
   /** A template exists for `source`, so it can be generated. */
   available: boolean;
-  /** The template also has examples, so it can be previewed. */
+  /** The template also has stories, so it can be previewed. */
   previewable: boolean;
-  /** Example names, in file order; [] unless previewable. The tool lists them as files. */
-  examples: string[];
+  /** Story names, in file order; [] unless previewable. The tool lists them as files. */
+  stories: string[];
 }
 
 /** POST /api/components/:source/generate */
@@ -155,7 +155,7 @@ export interface GenerateRequest {
 /** What the tool shows. The files every component shares come with the download instead. */
 export interface GenerateResponse {
   source: string;
-  /** The component, its examples and its predefined test, keyed by file name. */
+  /** The component, its stories and its predefined test, keyed by file name. */
   files: Record<string, string>;
   warnings: RewriteWarning[];
 }

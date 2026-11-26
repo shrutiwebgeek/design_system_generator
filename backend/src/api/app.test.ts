@@ -37,12 +37,12 @@ describe("GET /api/components", () => {
       tier: "atoms",
       available: true,
       previewable: true,
-      examples: ["Variants", "Sizes", "Icon only", "With icon", "States"],
+      stories: ["Variants", "Sizes", "Icon only", "With icon", "States"],
     });
     expect(list.find((c) => c.label === "Input")).toMatchObject({
       available: false,
       previewable: false,
-      examples: [],
+      stories: [],
     });
     expect(list.find((c) => c.label === "Footer")).toMatchObject({
       source: null,

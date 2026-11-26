@@ -69,11 +69,11 @@ export const folderIcon = "text-ring group-data-panel-open:hidden";
 export const folderOpenIcon = "hidden text-ring group-data-panel-open:block";
 export const kindIcon = "flex text-ring";
 
-export const exampleFile = cn(
+export const storyFile = cn(
   treeRow,
   "ps-6 pe-2",
   "aria-[current=page]:bg-secondary",
   "aria-[current=page]:text-secondary-foreground",
 );
-export const exampleFileIcon = cn(iconSm, mutedText);
+export const storyFileIcon = cn(iconSm, mutedText);
 export const inProgressItem = cn(row, note, "py-1 ps-6 pe-2");

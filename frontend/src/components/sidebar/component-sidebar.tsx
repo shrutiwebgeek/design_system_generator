@@ -51,7 +51,7 @@ interface ComponentTreeProps extends SelectionProps {
 }
 
 /**
- * Design system → tier folders → component folders → example files.
+ * Design system → tier folders → component folders → story files.
  * Search filters components by name and opens every folder on the way to a match.
  */
 function ComponentTree({ components, selected, onSelect }: ComponentTreeProps) {

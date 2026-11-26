@@ -108,13 +108,13 @@ export function createApp() {
     for (const tier of tiers) {
       for (const entry of componentList[tier]) {
         const { source } = entry;
-        const examples = source === null ? [] : await readStoryNames(source);
+        const stories = source === null ? [] : await readStoryNames(source);
         summaries.push({
           ...entry,
           tier,
           available: source !== null && (await hasTemplate(source)),
-          previewable: examples.length > 0,
-          examples,
+          previewable: stories.length > 0,
+          stories,
         });
       }
     }

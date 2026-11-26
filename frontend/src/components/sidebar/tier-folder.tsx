@@ -59,9 +59,9 @@ interface ComponentFolderProps extends TreeProps {
   component: ReadyComponent;
 }
 
-/** A ready component: one file per example. */
+/** A ready component: one file per story. */
 function ComponentFolder({
-  component: { source, label, examples },
+  component: { source, label, stories },
   folder,
   selected,
   onSelect,
@@ -69,22 +69,22 @@ function ComponentFolder({
   return (
     <TreeFolder label={label} {...folder(`component:${source}`)}>
       <Branch>
-        {examples.map((example) => {
+        {stories.map((story) => {
           const current =
-            selected?.source === source && selected.example === example;
+            selected?.source === source && selected.story === story;
           return (
-            <li key={example}>
+            <li key={story}>
               <button
                 type="button"
                 aria-current={current ? "page" : undefined}
-                onClick={() => onSelect({ source, example })}
-                className={styles.exampleFile}
+                onClick={() => onSelect({ source, story })}
+                className={styles.storyFile}
               >
                 <FileCode2Icon
                   aria-hidden="true"
-                  className={styles.exampleFileIcon}
+                  className={styles.storyFileIcon}
                 />
-                <span className="truncate">{example}</span>
+                <span className="truncate">{story}</span>
               </button>
             </li>
           );
