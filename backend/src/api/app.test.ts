@@ -37,7 +37,16 @@ describe("GET /api/components", () => {
       tier: "atoms",
       available: true,
       previewable: true,
-      stories: ["Variants", "Sizes", "Icon only", "With icon", "States"],
+      stories: [
+        "Default",
+        "Secondary",
+        "Outline",
+        "Ghost",
+        "Destructive",
+        "Link",
+        "Icon",
+        "With icon",
+      ],
     });
     expect(list.find((c) => c.label === "Input")).toMatchObject({
       available: false,
@@ -61,8 +70,8 @@ describe("POST /api/components/:source/generate", () => {
       "button.test.tsx",
       "button.tsx",
     ]);
-    // Stories ship tokenized, like the component.
-    expect(body.files["button.stories.tsx"]).toContain("gap-ds-sm");
+    // Stories ship next to the component, as its usage reference.
+    expect(body.files["button.stories.tsx"]).toContain("export const stories");
     expect(body.files["button.tsx"]).toContain('from "@/lib/utils"');
     expect(body.warnings.map((w) => w.reason)).toEqual([
       "arbitrary",

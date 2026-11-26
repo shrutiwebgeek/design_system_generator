@@ -5,11 +5,18 @@ import {
 import type {
   PreviewReadyMessage,
   PreviewSelectMessage,
+  StoryArgs,
 } from "@dsg/design-data/types";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { shownStory } from "@/lib/preview-story";
+import { tokenValues, type TokenEdits } from "@/lib/token-edits";
 
 interface PreviewFrameOptions {
   story: string;
+  /** The Controls panel's args; null for the stories file's own. */
+  args: StoryArgs | null;
+  /** The designer's token edits, applied over the generated theme. */
+  tokenEdits: TokenEdits;
   /** null until the user switches modes in the frame: the frame's own mode applies. */
   mode: string | null;
   /** The frame's own mode button switched modes. */
@@ -18,10 +25,13 @@ interface PreviewFrameOptions {
 
 /**
  * The tool's side of the preview protocol (types in @dsg/design-data/types): keeps
- * the frame on the tool's story and mode. Returns the ref for the iframe.
+ * the frame on the tool's story, args, token edits and mode. Returns the ref for the iframe and
+ * what the frame reported (its stories and controls), null until it has loaded.
  */
 export function usePreviewFrame({
   story,
+  args,
+  tokenEdits,
   mode,
   onModeChange,
 }: PreviewFrameOptions) {
@@ -45,15 +55,18 @@ export function usePreviewFrame({
   }, []);
 
   useEffect(() => {
-    if (!info) return;
+    const shown = info && shownStory(info, story);
+    if (!info || !shown) return;
     // Anything the frame doesn't know falls back to what it opened with.
     const message: PreviewSelectMessage = {
       type: "dsg-preview:select",
-      story: info.stories.includes(story) ? story : (info.stories[0] ?? story),
+      story: shown.name,
+      args: args ?? info.args,
+      tokenValues: tokenValues(info.tokens, tokenEdits),
       mode: mode !== null && info.modes.includes(mode) ? mode : info.mode,
     };
     frameRef.current?.contentWindow?.postMessage(message, "*");
-  }, [info, story, mode]);
+  }, [info, story, args, tokenEdits, mode]);
 
-  return frameRef;
+  return { frameRef, info };
 }

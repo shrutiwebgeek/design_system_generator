@@ -168,7 +168,7 @@ export interface ApiError {
 /*
  * postMessage protocol between the tool and the sandboxed preview iframe.
  * The frame has an opaque origin, so both sides post with targetOrigin "*" and
- * trust a message by its `event.source` instead. Only names cross, nothing secret.
+ * trust a message by its `event.source` instead. Only names and settings cross, nothing secret.
  */
 
 /** A story's settings: the props the Controls panel can change. */
@@ -187,6 +187,15 @@ export type StoryControl =
     }
   | { type: "boolean"; label: string }
   | { type: "text"; label: string };
+
+/** A story as the tool sees it. */
+export interface StoryInfo {
+  name: string;
+  /** The args it shows controls for. */
+  controls: string[];
+  /** The variant it fixes, if any: picks which component tokens Controls shows. */
+  variant?: string;
+}
 
 export type ComponentTokenKind = "color" | "radius" | "borderWidth";
 
@@ -211,7 +220,13 @@ export type TokenValues = Record<string, Record<string, string>>;
 /** Frame → tool, on every load: what the preview can show. */
 export interface PreviewReadyMessage {
   type: "dsg-preview:ready";
-  stories: string[];
+  stories: StoryInfo[];
+  /** The args every story starts from; one change in Controls reaches every story. */
+  args: StoryArgs;
+  /** One control per arg name. */
+  controls: Record<string, StoryControl>;
+  /** The component's own tokens, with their current values. */
+  tokens: ComponentTokenInfo[];
   modes: string[];
   /** The token file's default mode: the unclassed :root in theme.css. */
   defaultMode: string;
@@ -224,6 +239,10 @@ export interface PreviewSelectMessage {
   type: "dsg-preview:select";
   story: string;
   mode: string;
+  /** The args as the Controls panel has them. */
+  args: StoryArgs;
+  /** The designer's token edits, applied over the generated theme. */
+  tokenValues: TokenValues;
 }
 
 /** Frame → tool, when its own mode button switches modes, so the tool can keep the choice. */

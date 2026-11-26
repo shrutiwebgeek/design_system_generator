@@ -22,13 +22,14 @@ describe("buildPreview (Button)", async () => {
 
   it("compiles CSS from the generated theme, including token utilities", () => {
     expect(html).toContain("--background: #F8FAFC");
+    expect(html).toContain("--button-outline-bg: #F8FAFC");
+    expect(html).toMatch(/\.bg-button-outline-bg\s*\{/);
     expect(html).toMatch(/\.h-ds-control-md\s*\{/);
     expect(html).toContain("size-ds-icon-md"); // the [&_svg:not([class*='size-'])] icon rule
   });
 
-  it("bundles the generated stories, with their layout classes rewritten", () => {
-    expect(html).toContain("gap-ds-sm");
-    expect(html).not.toMatch(/["\s]gap-2["\s]/);
+  it("bundles the generated stories", () => {
+    expect(html).toContain("Icon size"); // a control label from the stories file
   });
 
   it("reflects uploaded tokens", async () => {

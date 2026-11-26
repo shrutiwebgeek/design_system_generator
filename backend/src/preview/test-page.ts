@@ -37,6 +37,19 @@ export async function run(html: string) {
 
 export const buttons = (document: Document) =>
   document.querySelectorAll('[data-slot="button"]').length;
+export const storyButton = (document: Document) =>
+  document.querySelector<HTMLButtonElement>('main [data-slot="button"]')!;
+export const shownStory = (document: Document) =>
+  document.querySelector("main")?.getAttribute("aria-label");
+export const tokenEdits = (document: Document) =>
+  document.getElementById("dsg-token-edits")?.textContent;
+/** The stories file's args. */
+export const ARGS = {
+  size: "default",
+  iconSize: "icon",
+  disabled: false,
+  children: "Button",
+};
 
 export const isDark = (document: Document) =>
   document.documentElement.classList.contains("dark");

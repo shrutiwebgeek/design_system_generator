@@ -1,8 +1,11 @@
+import type { StoryArgs } from "@dsg/design-data/types";
 import { useState } from "react";
 import { useGeneratedComponent } from "@/api";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { usePreviewFrame } from "@/hooks/use-preview-frame";
+import { useTokenEdits } from "@/hooks/use-token-edits";
 import type { ReadyComponent } from "@/lib/component-catalog";
+import { shownStory } from "@/lib/preview-story";
 import { isWorkspaceTab, type WorkspaceTab } from "@/lib/workspace-tab";
 import * as styles from "@/styles/workspace.styles";
 import { ControlsPanel } from "./controls/controls-panel";
@@ -35,7 +38,16 @@ export function Workspace({
   onFullScreenChange,
 }: WorkspaceProps) {
   const generated = useGeneratedComponent(source);
-  const frameRef = usePreviewFrame({ story, mode, onModeChange });
+  // The Controls panel's args, shared by every story: Text set once shows on all of them.
+  const [editedArgs, setEditedArgs] = useState<StoryArgs | null>(null);
+  const tokens = useTokenEdits(source);
+  const { frameRef, info } = usePreviewFrame({
+    story,
+    args: editedArgs,
+    tokenEdits: tokens.edits,
+    mode,
+    onModeChange,
+  });
   // Lives here, not in the Code panel, which unmounts when another tab opens.
   const [openFile, setOpenFile] = useState(`${source}.tsx`);
 
@@ -69,7 +81,16 @@ export function Workspace({
           </TabsContent>
         </Tabs>
       </main>
-      {!fullScreen && <ControlsPanel />}
+      {!fullScreen && (
+        <ControlsPanel
+          info={info}
+          story={info ? shownStory(info, story) : undefined}
+          args={editedArgs ?? info?.args}
+          onArgsChange={setEditedArgs}
+          mode={mode ?? info?.mode}
+          tokens={tokens}
+        />
+      )}
     </>
   );
 }
