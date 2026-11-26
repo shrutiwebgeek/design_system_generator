@@ -72,6 +72,41 @@ export interface Mapping {
     radius: RewriteGroup;
     shadow: RewriteGroup;
   };
+  /** Tokens a component owns, keyed by template name. */
+  components?: Record<string, ComponentRules>;
+}
+
+/** A token one component owns, such as the outline button's background. */
+export interface ComponentTokenRule {
+  /** The CSS variable the generated component reads, e.g. "--button-outline-bg". */
+  cssVar: string;
+  /**
+   * Where a designer's value lives in the token file. Mode-relative for colors
+   * ("component.button.outline.background"), mode-free under "semantic." for shape.
+   */
+  path: string;
+  label: string;
+  /** "color", "radius" or "borderWidth" (a string: JSON imports don't keep literal types). */
+  kind: string;
+  /** The variant it belongs to; absent when every variant shares it. */
+  variant?: string;
+  /** Its value until a designer sets one, per mode ("*" for any): a token path, or CSS. */
+  default: Record<string, string>;
+}
+
+/** Class swaps in one string of the component's cva() call: "base", or "<group>.<value>". */
+export interface ClassSwap {
+  /** Class → replacement; "" drops it. Every class must be present, or generation fails. */
+  swap?: Record<string, string>;
+  /** Classes appended to the string. */
+  add?: string;
+}
+
+export interface ComponentRules {
+  description?: string;
+  /** Keyed by a stable name, e.g. "outline.background" or "radius". */
+  tokens: Record<string, ComponentTokenRule>;
+  classes: Record<string, ClassSwap>;
 }
 
 // ---- Component list ---------------------------------------------------------
