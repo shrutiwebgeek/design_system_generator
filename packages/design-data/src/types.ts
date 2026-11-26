@@ -171,6 +171,23 @@ export interface ApiError {
  * trust a message by its `event.source` instead. Only names cross, nothing secret.
  */
 
+/** A story's settings: the props the Controls panel can change. */
+export type StoryArgs = Record<string, string | boolean>;
+
+/** How the Controls panel edits one arg. */
+export type StoryControl =
+  | {
+      type: "select";
+      label: string;
+      options: readonly string[];
+      /** The component prop it sets, when that isn't the arg's name. */
+      prop?: string;
+      /** Shown beside an option, e.g. a size's height ("36px"). Added by the preview. */
+      details?: Record<string, string>;
+    }
+  | { type: "boolean"; label: string }
+  | { type: "text"; label: string };
+
 export type ComponentTokenKind = "color" | "radius" | "borderWidth";
 
 /** A component token as Controls shows it. */
@@ -187,6 +204,9 @@ export interface ComponentTokenInfo {
   /** For radius and border thickness: the token scale to pick from. */
   options?: { name: string; value: string }[];
 }
+
+/** CSS variable values per mode ("*" for every mode). */
+export type TokenValues = Record<string, Record<string, string>>;
 
 /** Frame → tool, on every load: what the preview can show. */
 export interface PreviewReadyMessage {

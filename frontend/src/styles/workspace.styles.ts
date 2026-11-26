@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { center, column, fill, heading, note } from "./atoms";
+import { center, column, fill, focusRing, heading, note, row } from "./atoms";
 
 export const main = cn(column, "min-w-0 flex-1");
 export const tabs = cn(fill, "gap-0");
@@ -40,6 +40,28 @@ export const status = cn(center, note, "size-full p-4");
 // Controls
 export const controls = cn(
   column,
-  "w-72 shrink-0 gap-2 overflow-y-auto border-l p-4",
+  "w-88 shrink-0 gap-6 overflow-y-auto border-l p-4",
 );
 export const controlsTitle = cn(heading, "text-sm");
+export const controlSection = cn(column, "gap-4");
+export const sectionTitle = cn(heading, "text-sm");
+export const controlField = cn(column, "gap-2");
+export const checkboxField = "gap-2 font-normal";
+export const selectTrigger = "w-full";
+export const colorRow = cn(row, "gap-2");
+/** The hex field's error: shadcn's tooltip in the destructive color (white on it: 7.7:1), arrow included. */
+export const errorTip = cn(
+  "bg-destructive text-white",
+  "*:last:bg-destructive *:last:fill-destructive",
+);
+/** The native color input, trimmed to a swatch beside the text field. */
+export const swatch = cn(
+  focusRing,
+  "h-9 w-10 shrink-0 cursor-pointer rounded-md border bg-transparent p-1",
+);
+/** No single color to show: the swatch is hidden behind a diagonal line. */
+export const swatchUnset = cn(
+  swatch,
+  "[&::-webkit-color-swatch]:opacity-0 [&::-moz-color-swatch]:opacity-0",
+  "bg-[linear-gradient(to_top_right,transparent_47%,var(--color-muted-foreground)_47%,var(--color-muted-foreground)_53%,transparent_53%)]",
+);

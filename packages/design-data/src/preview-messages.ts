@@ -4,6 +4,7 @@ import type {
   PreviewModeMessage,
   PreviewReadyMessage,
   PreviewSelectMessage,
+  TokenValues,
 } from "./types.ts";
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -11,6 +12,12 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const isStrings = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((v) => typeof v === "string");
+
+const isStringRecord = (value: unknown): value is Record<string, string> =>
+  isRecord(value) && Object.values(value).every((v) => typeof v === "string");
+
+export const isTokenValues = (value: unknown): value is TokenValues =>
+  isRecord(value) && Object.values(value).every(isStringRecord);
 
 export const isReadyMessage = (data: unknown): data is PreviewReadyMessage =>
   isRecord(data) &&
