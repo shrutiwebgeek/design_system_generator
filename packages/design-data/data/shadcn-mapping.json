@@ -1,12 +1,11 @@
 {
   "meta": {
     "name": "shadcn-mapping",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "target": "shadcn/ui, Base UI primitives, base-vega style, on Tailwind CSS v4",
     "description": "Read on every token upload. Maps design tokens onto shadcn's CSS variables, Tailwind v4 @theme variables, and rewrites shadcn's hard-coded utility classes onto token utilities.",
     "pathConvention": "Paths starting with 'primitive.' or 'semantic.' are mode-free. Every other path resolves inside each modes.<mode> block of the token file (e.g. 'color.surface.default' -> modes.light.color.surface.default)."
   },
-
   "cssVars": {
     "--background": "color.surface.default",
     "--foreground": "color.text.default",
@@ -28,7 +27,6 @@
     "--ring": "color.focus",
     "--radius": "primitive.radius.lg"
   },
-
   "theme": {
     "--spacing-ds-none": "primitive.spacing.none",
     "--spacing-ds-xs": "primitive.spacing.xs",
@@ -43,7 +41,6 @@
     "--spacing-ds-control-lg": "primitive.size.control.lg",
     "--spacing-ds-icon-sm": "primitive.size.icon.sm",
     "--spacing-ds-icon-md": "primitive.size.icon.md",
-
     "--text-xs": "primitive.fontSize.xs",
     "--text-sm": "primitive.fontSize.sm",
     "--text-md": "primitive.fontSize.md",
@@ -52,30 +49,24 @@
     "--text-2xl": "primitive.fontSize.2xl",
     "--text-3xl": "primitive.fontSize.3xl",
     "--text-4xl": "primitive.fontSize.4xl",
-
     "--font-sans": "primitive.fontFamily.sans",
     "--font-mono": "primitive.fontFamily.mono",
-
     "--font-weight-normal": "primitive.fontWeight.regular",
     "--font-weight-medium": "primitive.fontWeight.medium",
     "--font-weight-semibold": "primitive.fontWeight.semibold",
     "--font-weight-bold": "primitive.fontWeight.bold",
-
     "--leading-tight": "primitive.lineHeight.tight",
     "--leading-normal": "primitive.lineHeight.normal",
     "--leading-relaxed": "primitive.lineHeight.relaxed",
-
     "--radius-none": "primitive.radius.none",
     "--radius-sm": "primitive.radius.sm",
     "--radius-md": "primitive.radius.md",
     "--radius-lg": "primitive.radius.lg",
     "--radius-full": "primitive.radius.full",
-
     "--shadow-sm": "primitive.shadow.sm",
     "--shadow-md": "primitive.shadow.md",
     "--shadow-lg": "primitive.shadow.lg"
   },
-
   "textStyles": {
     "description": "Each key becomes a Tailwind @utility setting font-family, font-size, font-weight and line-height from the semantic role. Used by organisms and docs pages; shadcn classes are not rewritten to these.",
     "text-display": "semantic.typography.display",
@@ -89,12 +80,10 @@
     "text-caption": "semantic.typography.caption",
     "text-code": "semantic.typography.code"
   },
-
   "imports": {
     "description": "Module specifiers rewritten in generated components. The generated lib/utils.ts exports a cn() that knows the ds- token utilities; plain cn treats px-ds-md and px-ds-sm as non-conflicting (verified 2026-11-17).",
     "cn": "@/lib/utils"
   },
-
   "rewrite": {
     "utilityPrefix": {
       "namespace": "spacing",
@@ -104,7 +93,6 @@
     "unmapped": "snap-and-warn",
     "tieBreak": "down",
     "neverSnapNonZeroToNone": true,
-
     "spacing": {
       "description": "Tailwind numeric step (x 4px) -> spacing token. Ties round down.",
       "prefixes": [
@@ -161,7 +149,6 @@
         "16": "ds-2xl"
       }
     },
-
     "size": {
       "description": "Heights and square sizes. Control heights must line up across buttons and inputs, so they map to size tokens instead of snapping.",
       "prefixes": ["h", "min-h", "size"],
@@ -177,17 +164,22 @@
       },
       "fallback": "spacing"
     },
-
     "fontSize": {
       "prefix": "text",
-      "steps": { "base": "md", "5xl": "4xl", "6xl": "4xl" }
+      "steps": {
+        "base": "md",
+        "5xl": "4xl",
+        "6xl": "4xl"
+      }
     },
-
     "leading": {
       "prefix": "leading",
-      "steps": { "none": "tight", "snug": "tight", "loose": "relaxed" }
+      "steps": {
+        "none": "tight",
+        "snug": "tight",
+        "loose": "relaxed"
+      }
     },
-
     "radius": {
       "prefix": "rounded",
       "steps": {
@@ -199,10 +191,364 @@
         "4xl": "full"
       }
     },
-
     "shadow": {
       "prefix": "shadow",
-      "steps": { "": "sm", "xs": "sm", "xl": "lg", "2xl": "lg" }
+      "steps": {
+        "": "sm",
+        "xs": "sm",
+        "xl": "lg",
+        "2xl": "lg"
+      }
+    }
+  },
+  "components": {
+    "button": {
+      "description": "The button's own tokens: per-variant colors (mode-relative, under component.button.<variant>) and a shared shape (mode-free, under semantic.component.button). Until a designer sets one, each token takes the default, which reproduces shadcn's classes as hex (alpha included). Defaults: a token path, \"<path> / <n>%\" for that token at n% opacity, \"<path> + <n>% <path>\" for an oklch mix, or a hex literal. The class swaps point the button's cva() strings at these tokens.",
+      "tokens": {
+        "radius": {
+          "cssVar": "--button-radius",
+          "path": "semantic.component.button.radius",
+          "label": "Border radius",
+          "kind": "radius",
+          "default": {
+            "*": "primitive.radius.md"
+          }
+        },
+        "borderWidth": {
+          "cssVar": "--button-border-width",
+          "path": "semantic.component.button.borderWidth",
+          "label": "Border thickness",
+          "kind": "borderWidth",
+          "default": {
+            "*": "primitive.borderWidth.thin"
+          }
+        },
+        "default.background": {
+          "cssVar": "--button-default-bg",
+          "path": "component.button.default.background",
+          "label": "Background",
+          "kind": "color",
+          "variant": "default",
+          "default": {
+            "*": "color.action.primary"
+          }
+        },
+        "default.foreground": {
+          "cssVar": "--button-default-fg",
+          "path": "component.button.default.foreground",
+          "label": "Text",
+          "kind": "color",
+          "variant": "default",
+          "default": {
+            "*": "color.text.inverse"
+          }
+        },
+        "default.border": {
+          "cssVar": "--button-default-border",
+          "path": "component.button.default.border",
+          "label": "Border",
+          "kind": "color",
+          "variant": "default",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "default.hover": {
+          "cssVar": "--button-default-hover",
+          "path": "component.button.default.hover",
+          "label": "Hover background",
+          "kind": "color",
+          "variant": "default",
+          "default": {
+            "*": "color.action.primary / 80%"
+          }
+        },
+        "outline.background": {
+          "cssVar": "--button-outline-bg",
+          "path": "component.button.outline.background",
+          "label": "Background",
+          "kind": "color",
+          "variant": "outline",
+          "default": {
+            "*": "color.surface.default",
+            "dark": "color.border.strong / 30%"
+          }
+        },
+        "outline.foreground": {
+          "cssVar": "--button-outline-fg",
+          "path": "component.button.outline.foreground",
+          "label": "Text",
+          "kind": "color",
+          "variant": "outline",
+          "default": {
+            "*": "color.text.default"
+          }
+        },
+        "outline.border": {
+          "cssVar": "--button-outline-border",
+          "path": "component.button.outline.border",
+          "label": "Border",
+          "kind": "color",
+          "variant": "outline",
+          "default": {
+            "*": "color.border.default",
+            "dark": "color.border.strong"
+          }
+        },
+        "outline.hover": {
+          "cssVar": "--button-outline-hover",
+          "path": "component.button.outline.hover",
+          "label": "Hover background",
+          "kind": "color",
+          "variant": "outline",
+          "default": {
+            "*": "color.surface.sunken",
+            "dark": "color.border.strong / 50%"
+          }
+        },
+        "secondary.background": {
+          "cssVar": "--button-secondary-bg",
+          "path": "component.button.secondary.background",
+          "label": "Background",
+          "kind": "color",
+          "variant": "secondary",
+          "default": {
+            "*": "color.action.secondary"
+          }
+        },
+        "secondary.foreground": {
+          "cssVar": "--button-secondary-fg",
+          "path": "component.button.secondary.foreground",
+          "label": "Text",
+          "kind": "color",
+          "variant": "secondary",
+          "default": {
+            "*": "color.text.default"
+          }
+        },
+        "secondary.border": {
+          "cssVar": "--button-secondary-border",
+          "path": "component.button.secondary.border",
+          "label": "Border",
+          "kind": "color",
+          "variant": "secondary",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "secondary.hover": {
+          "cssVar": "--button-secondary-hover",
+          "path": "component.button.secondary.hover",
+          "label": "Hover background",
+          "kind": "color",
+          "variant": "secondary",
+          "default": {
+            "*": "color.action.secondary + 5% color.text.default"
+          }
+        },
+        "ghost.background": {
+          "cssVar": "--button-ghost-bg",
+          "path": "component.button.ghost.background",
+          "label": "Background",
+          "kind": "color",
+          "variant": "ghost",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "ghost.foreground": {
+          "cssVar": "--button-ghost-fg",
+          "path": "component.button.ghost.foreground",
+          "label": "Text",
+          "kind": "color",
+          "variant": "ghost",
+          "default": {
+            "*": "color.text.default"
+          }
+        },
+        "ghost.border": {
+          "cssVar": "--button-ghost-border",
+          "path": "component.button.ghost.border",
+          "label": "Border",
+          "kind": "color",
+          "variant": "ghost",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "ghost.hover": {
+          "cssVar": "--button-ghost-hover",
+          "path": "component.button.ghost.hover",
+          "label": "Hover background",
+          "kind": "color",
+          "variant": "ghost",
+          "default": {
+            "*": "color.surface.sunken",
+            "dark": "color.surface.sunken / 50%"
+          }
+        },
+        "destructive.background": {
+          "cssVar": "--button-destructive-bg",
+          "path": "component.button.destructive.background",
+          "label": "Background",
+          "kind": "color",
+          "variant": "destructive",
+          "default": {
+            "*": "color.feedback.danger / 10%",
+            "dark": "color.feedback.danger / 20%"
+          }
+        },
+        "destructive.foreground": {
+          "cssVar": "--button-destructive-fg",
+          "path": "component.button.destructive.foreground",
+          "label": "Text",
+          "kind": "color",
+          "variant": "destructive",
+          "default": {
+            "*": "color.feedback.danger"
+          }
+        },
+        "destructive.border": {
+          "cssVar": "--button-destructive-border",
+          "path": "component.button.destructive.border",
+          "label": "Border",
+          "kind": "color",
+          "variant": "destructive",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "destructive.hover": {
+          "cssVar": "--button-destructive-hover",
+          "path": "component.button.destructive.hover",
+          "label": "Hover background",
+          "kind": "color",
+          "variant": "destructive",
+          "default": {
+            "*": "color.feedback.danger / 20%",
+            "dark": "color.feedback.danger / 30%"
+          }
+        },
+        "link.background": {
+          "cssVar": "--button-link-bg",
+          "path": "component.button.link.background",
+          "label": "Background",
+          "kind": "color",
+          "variant": "link",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "link.foreground": {
+          "cssVar": "--button-link-fg",
+          "path": "component.button.link.foreground",
+          "label": "Text",
+          "kind": "color",
+          "variant": "link",
+          "default": {
+            "*": "color.action.primary"
+          }
+        },
+        "link.border": {
+          "cssVar": "--button-link-border",
+          "path": "component.button.link.border",
+          "label": "Border",
+          "kind": "color",
+          "variant": "link",
+          "default": {
+            "*": "#00000000"
+          }
+        },
+        "link.hover": {
+          "cssVar": "--button-link-hover",
+          "path": "component.button.link.hover",
+          "label": "Hover background",
+          "kind": "color",
+          "variant": "link",
+          "default": {
+            "*": "#00000000"
+          }
+        }
+      },
+      "classes": {
+        "base": {
+          "swap": {
+            "rounded-md": "rounded-button",
+            "border": "border-(length:--button-border-width)",
+            "border-transparent": ""
+          }
+        },
+        "size.xs": {
+          "swap": {
+            "rounded-[min(var(--radius-md),8px)]": "rounded-[min(var(--button-radius),8px)]"
+          }
+        },
+        "size.sm": {
+          "swap": {
+            "rounded-[min(var(--radius-md),10px)]": "rounded-[min(var(--button-radius),10px)]"
+          }
+        },
+        "size.icon-xs": {
+          "swap": {
+            "rounded-[min(var(--radius-md),8px)]": "rounded-[min(var(--button-radius),8px)]"
+          }
+        },
+        "size.icon-sm": {
+          "swap": {
+            "rounded-[min(var(--radius-md),10px)]": "rounded-[min(var(--button-radius),10px)]"
+          }
+        },
+        "variant.default": {
+          "swap": {
+            "bg-primary": "bg-button-default-bg",
+            "text-primary-foreground": "text-button-default-fg",
+            "hover:bg-primary/80": "hover:bg-button-default-hover"
+          },
+          "add": "border-button-default-border"
+        },
+        "variant.outline": {
+          "swap": {
+            "border-border": "border-button-outline-border",
+            "bg-background": "bg-button-outline-bg",
+            "hover:bg-muted": "hover:bg-button-outline-hover",
+            "dark:border-input": "",
+            "dark:bg-input/30": "",
+            "dark:hover:bg-input/50": ""
+          },
+          "add": "text-button-outline-fg"
+        },
+        "variant.secondary": {
+          "swap": {
+            "bg-secondary": "bg-button-secondary-bg",
+            "text-secondary-foreground": "text-button-secondary-fg",
+            "hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)]": "hover:bg-button-secondary-hover"
+          },
+          "add": "border-button-secondary-border"
+        },
+        "variant.ghost": {
+          "swap": {
+            "hover:bg-muted": "hover:bg-button-ghost-hover",
+            "dark:hover:bg-muted/50": ""
+          },
+          "add": "bg-button-ghost-bg text-button-ghost-fg border-button-ghost-border"
+        },
+        "variant.destructive": {
+          "swap": {
+            "bg-destructive/10": "bg-button-destructive-bg",
+            "text-destructive": "text-button-destructive-fg",
+            "hover:bg-destructive/20": "hover:bg-button-destructive-hover",
+            "dark:bg-destructive/20": "",
+            "dark:hover:bg-destructive/30": ""
+          },
+          "add": "border-button-destructive-border"
+        },
+        "variant.link": {
+          "swap": {
+            "text-primary": "text-button-link-fg"
+          },
+          "add": "bg-button-link-bg border-button-link-border hover:bg-button-link-hover"
+        }
+      }
     }
   }
 }

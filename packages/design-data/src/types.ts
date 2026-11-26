@@ -171,6 +171,23 @@ export interface ApiError {
  * trust a message by its `event.source` instead. Only names cross, nothing secret.
  */
 
+export type ComponentTokenKind = "color" | "radius" | "borderWidth";
+
+/** A component token as Controls shows it. */
+export interface ComponentTokenInfo {
+  /** e.g. "outline.background" or "radius". */
+  key: string;
+  cssVar: string;
+  label: string;
+  kind: ComponentTokenKind;
+  /** Absent when every variant shares it. */
+  variant?: string;
+  /** The current CSS value per mode; shared tokens use "*". */
+  values: Record<string, string>;
+  /** For radius and border thickness: the token scale to pick from. */
+  options?: { name: string; value: string }[];
+}
+
 /** Frame → tool, on every load: what the preview can show. */
 export interface PreviewReadyMessage {
   type: "dsg-preview:ready";

@@ -4,6 +4,7 @@ import type { GenerateResponse, Mapping, TokenFile } from "@dsg/design-data";
 import backendPackage from "../../package.json" with { type: "json" };
 import { exampleNamesIn } from "./example-names.ts";
 import { generateUtilsFile } from "./merge/utils-file.ts";
+import { applyClassSwaps } from "./rewrite/class-swaps.ts";
 import { createRewriter } from "./rewrite/rewrite.ts";
 import { TEMPLATES_DIR } from "./templates.ts";
 import { generateThemeCss } from "./theme/theme.ts";
@@ -108,6 +109,13 @@ export async function generateComponent(
 
   for (const { file } of meta.files)
     addRewritten(file, await readTemplateFile(meta.name, file));
+
+  // Where the mapping gives the component tokens of its own, its classes read them.
+  const swaps = mapping.components?.[source]?.classes;
+  const own = `${source}.tsx`;
+  const ownCode = files[own];
+  if (swaps && ownCode !== undefined)
+    files[own] = applyClassSwaps(ownCode, swaps, own);
 
   // The predefined test ships as-is: it tests behaviour, not classes.
   const testFile = `${source}.test.tsx`;

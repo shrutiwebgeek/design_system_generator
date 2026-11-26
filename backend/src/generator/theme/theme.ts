@@ -1,4 +1,8 @@
 import type { Mapping, TokenFile } from "@dsg/design-data";
+import {
+  componentThemeAliases,
+  componentVarLines,
+} from "../component-tokens.ts";
 import { resolvePath, type Resolved } from "../tokens.ts";
 
 const SHADOW_FIELDS = [
@@ -28,7 +32,8 @@ function block(selector: string, lines: string[]): string {
 
 /**
  * Generates the CSS a project imports after `@import "tailwindcss"`:
- * shadcn's variables per mode, the bridge to Tailwind color utilities,
+ * shadcn's variables and the components' own tokens per mode, the bridge to
+ * Tailwind color utilities,
  * the Tailwind @theme scale, and one @utility per semantic text style.
  */
 export function generateThemeCss(tokens: TokenFile, mapping: Mapping): string {
@@ -50,7 +55,9 @@ export function generateThemeCss(tokens: TokenFile, mapping: Mapping): string {
       ([name, path]) =>
         `${name}: ${toCss(resolvePath(tokens, path, mode), path)};`,
     );
-    out.push(block(selector, lines));
+    out.push(
+      block(selector, [...lines, ...componentVarLines(tokens, mapping, mode)]),
+    );
   }
 
   // shadcn's bridge: bg-primary, text-muted-foreground, ... read these.
@@ -58,10 +65,10 @@ export function generateThemeCss(tokens: TokenFile, mapping: Mapping): string {
     (name) => name !== "--radius",
   );
   out.push(
-    block(
-      "@theme inline",
-      colorVars.map((name) => `--color-${name.slice(2)}: var(${name});`),
-    ),
+    block("@theme inline", [
+      ...colorVars.map((name) => `--color-${name.slice(2)}: var(${name});`),
+      ...componentThemeAliases(mapping),
+    ]),
   );
 
   out.push(
