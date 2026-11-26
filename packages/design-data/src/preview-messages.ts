@@ -22,7 +22,7 @@ export const isTokenValues = (value: unknown): value is TokenValues =>
 export const isReadyMessage = (data: unknown): data is PreviewReadyMessage =>
   isRecord(data) &&
   data.type === "dsg-preview:ready" &&
-  isStrings(data.examples) &&
+  isStrings(data.stories) &&
   isStrings(data.modes) &&
   typeof data.defaultMode === "string" &&
   typeof data.mode === "string";
@@ -35,5 +35,5 @@ export const isModeMessage = (data: unknown): data is PreviewModeMessage =>
 export const isSelectMessage = (data: unknown): data is PreviewSelectMessage =>
   isRecord(data) &&
   data.type === "dsg-preview:select" &&
-  typeof data.example === "string" &&
+  typeof data.story === "string" &&
   typeof data.mode === "string";

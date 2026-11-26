@@ -12,8 +12,8 @@ import { PreviewPanel } from "./panels/preview-panel";
 
 interface WorkspaceProps {
   component: ReadyComponent;
-  /** The example file picked in the sidebar. */
-  example: string;
+  /** The story picked in the sidebar. */
+  story: string;
   tab: WorkspaceTab;
   onTabChange: (tab: WorkspaceTab) => void;
   /** null until the user switches modes in the preview. */
@@ -26,7 +26,7 @@ interface WorkspaceProps {
 /** The playground (middle) and the controls (right) for one component. Keyed by source, so state resets per component. */
 export function Workspace({
   component: { source, label },
-  example,
+  story,
   tab,
   onTabChange,
   mode,
@@ -35,7 +35,7 @@ export function Workspace({
   onFullScreenChange,
 }: WorkspaceProps) {
   const generated = useGeneratedComponent(source);
-  const frameRef = usePreviewFrame({ example, mode, onModeChange });
+  const frameRef = usePreviewFrame({ story, mode, onModeChange });
   // Lives here, not in the Code panel, which unmounts when another tab opens.
   const [openFile, setOpenFile] = useState(`${source}.tsx`);
 

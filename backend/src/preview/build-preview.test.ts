@@ -63,7 +63,7 @@ describe("buildPreview (Button)", async () => {
     expect(html).toContain("size-ds-icon-md"); // the [&_svg:not([class*='size-'])] icon rule
   });
 
-  it("bundles the generated examples, with their layout classes rewritten", () => {
+  it("bundles the generated stories, with their layout classes rewritten", () => {
     expect(html).toContain("gap-ds-sm");
     expect(html).not.toMatch(/["\s]gap-2["\s]/);
   });
@@ -75,13 +75,13 @@ describe("buildPreview (Button)", async () => {
       'button[aria-label^="Switch to"]',
     )!;
 
-  it("renders the first example, in dark mode, without errors", async () => {
+  it("renders the first story, in dark mode, without errors", async () => {
     const { document, errors } = await run(html);
     expect(errors).toEqual([]);
     expect(document.querySelector("main")?.getAttribute("aria-label")).toBe(
       "Variants",
     );
-    // 6 example buttons; the mode button isn't a [data-slot=button].
+    // 6 story buttons; the mode button isn't a [data-slot=button].
     expect(buttons(document)).toBe(6);
     expect(isDark(document)).toBe(true);
   });
@@ -109,11 +109,11 @@ describe("buildPreview (Button)", async () => {
     expect(html).toContain(".border-\\[\\#525252\\]"); // light
   });
 
-  it("tells its parent which examples and modes it has, and the one it opened in", async () => {
+  it("tells its parent which stories and modes it has, and the one it opened in", async () => {
     const { posted } = await run(html);
     expect(posted).toContainEqual({
       type: "dsg-preview:ready",
-      examples: ["Variants", "Sizes", "Icon only", "With icon", "States"],
+      stories: ["Variants", "Sizes", "Icon only", "With icon", "States"],
       modes: ["light", "dark"],
       defaultMode: "light",
       mode: "dark",
@@ -140,11 +140,11 @@ describe("buildPreview (Button)", async () => {
     expect(posted).toContainEqual({ type: "dsg-preview:mode", mode: "dark" });
   });
 
-  it("shows the example and mode its parent selects", async () => {
+  it("shows the story and mode its parent selects", async () => {
     const { document, sendFromParent } = await run(html);
     await sendFromParent({
       type: "dsg-preview:select",
-      example: "Icon only",
+      story: "Icon only",
       mode: "light",
     });
     expect(document.querySelector("main")?.getAttribute("aria-label")).toBe(
@@ -156,7 +156,7 @@ describe("buildPreview (Button)", async () => {
 
     await sendFromParent({
       type: "dsg-preview:select",
-      example: "Sizes",
+      story: "Sizes",
       mode: "dark",
     });
     expect(isDark(document)).toBe(true);
@@ -166,12 +166,12 @@ describe("buildPreview (Button)", async () => {
     const { document, sendFromParent } = await run(html);
     const select = {
       type: "dsg-preview:select",
-      example: "Sizes",
+      story: "Sizes",
       mode: "light",
     };
     await sendFromParent(select, null); // not from the parent
-    await sendFromParent({ ...select, example: "Nope", mode: "sepia" });
-    await sendFromParent({ type: "dsg-preview:select", example: 1, mode: [] });
+    await sendFromParent({ ...select, story: "Nope", mode: "sepia" });
+    await sendFromParent({ type: "dsg-preview:select", story: 1, mode: [] });
     await sendFromParent("dsg-preview:select");
     expect(document.querySelector("main")?.getAttribute("aria-label")).toBe(
       "Variants",
@@ -209,6 +209,6 @@ describe("buildPreview errors", () => {
       buildPreview("input", defaultTokens, mapping, "Input"),
     ).rejects.toThrow(/No template for "input"/);
   });
-  // NoExamplesError (template without examples) is untested: every template has
-  // examples today. Cover it with the first synced template that has none yet.
+  // NoStoriesError (template without stories) is untested: every template has
+  // stories today. Cover it with the first synced template that has none yet.
 });

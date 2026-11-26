@@ -9,7 +9,7 @@ import type {
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 
 interface PreviewFrameOptions {
-  example: string;
+  story: string;
   /** null until the user switches modes in the frame: the frame's own mode applies. */
   mode: string | null;
   /** The frame's own mode button switched modes. */
@@ -18,10 +18,10 @@ interface PreviewFrameOptions {
 
 /**
  * The tool's side of the preview protocol (types in @dsg/design-data/types): keeps
- * the frame on the tool's example and mode. Returns the ref for the iframe.
+ * the frame on the tool's story and mode. Returns the ref for the iframe.
  */
 export function usePreviewFrame({
-  example,
+  story,
   mode,
   onModeChange,
 }: PreviewFrameOptions) {
@@ -49,13 +49,11 @@ export function usePreviewFrame({
     // Anything the frame doesn't know falls back to what it opened with.
     const message: PreviewSelectMessage = {
       type: "dsg-preview:select",
-      example: info.examples.includes(example)
-        ? example
-        : (info.examples[0] ?? example),
+      story: info.stories.includes(story) ? story : (info.stories[0] ?? story),
       mode: mode !== null && info.modes.includes(mode) ? mode : info.mode,
     };
     frameRef.current?.contentWindow?.postMessage(message, "*");
-  }, [info, example, mode]);
+  }, [info, story, mode]);
 
   return frameRef;
 }

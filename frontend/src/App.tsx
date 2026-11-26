@@ -33,7 +33,7 @@ function App() {
           <Workspace
             key={component.source}
             component={component}
-            example={selected.story}
+            story={selected.story}
             tab={tab}
             onTabChange={setTab}
             mode={mode}

@@ -44,14 +44,13 @@ function Preview() {
     const onMessage = ({ source, data }: MessageEvent<unknown>) => {
       // The frame's origin is opaque, so trust the sender window, not an origin string.
       if (source !== window.parent || !isSelectMessage(data)) return;
-      if (stories.some((s) => s.name === data.example))
-        setStoryName(data.example);
+      if (stories.some((s) => s.name === data.story)) setStoryName(data.story);
       if (config.modes.includes(data.mode)) setMode(data.mode);
     };
     window.addEventListener("message", onMessage);
     post({
       type: "dsg-preview:ready",
-      examples: stories.map((s) => s.name),
+      stories: stories.map((s) => s.name),
       modes: config.modes,
       defaultMode: config.defaultMode,
       mode: INITIAL_MODE,

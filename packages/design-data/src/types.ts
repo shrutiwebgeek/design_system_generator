@@ -211,7 +211,7 @@ export type TokenValues = Record<string, Record<string, string>>;
 /** Frame → tool, on every load: what the preview can show. */
 export interface PreviewReadyMessage {
   type: "dsg-preview:ready";
-  examples: string[];
+  stories: string[];
   modes: string[];
   /** The token file's default mode: the unclassed :root in theme.css. */
   defaultMode: string;
@@ -222,7 +222,7 @@ export interface PreviewReadyMessage {
 /** Tool → frame: what to show. Unknown names are ignored. */
 export interface PreviewSelectMessage {
   type: "dsg-preview:select";
-  example: string;
+  story: string;
   mode: string;
 }
 
