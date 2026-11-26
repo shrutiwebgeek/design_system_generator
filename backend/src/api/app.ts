@@ -17,12 +17,12 @@ import {
 import {
   generateComponent,
   hasTemplate,
-  readExampleNames,
+  readStoryNames,
   TemplateNotFoundError,
 } from "../generator/generate.ts";
 import {
   buildPreview,
-  NoExamplesError,
+  NoStoriesError,
   PreviewBuildError,
 } from "../preview/build-preview.ts";
 
@@ -57,7 +57,7 @@ function tokensFrom(reqBody: unknown, res: Response): TokenFile | null {
 }
 
 function sendGenerationError(res: Response, err: unknown): void {
-  if (err instanceof TemplateNotFoundError || err instanceof NoExamplesError) {
+  if (err instanceof TemplateNotFoundError || err instanceof NoStoriesError) {
     res.status(404).json({ error: err.message } satisfies ApiError);
   } else if (err instanceof PreviewBuildError) {
     // Generated code that doesn't bundle is our bug, not the caller's.
@@ -108,7 +108,7 @@ export function createApp() {
     for (const tier of tiers) {
       for (const entry of componentList[tier]) {
         const { source } = entry;
-        const examples = source === null ? [] : await readExampleNames(source);
+        const examples = source === null ? [] : await readStoryNames(source);
         summaries.push({
           ...entry,
           tier,

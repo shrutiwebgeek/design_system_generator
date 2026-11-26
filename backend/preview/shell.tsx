@@ -1,4 +1,4 @@
-// The page inside the preview iframe: one example at a time, chosen by the tool over
+// The page inside the preview iframe: one story at a time, chosen by the tool over
 // postMessage, plus a mode button. Everything in this folder is tool chrome: it is
 // not rewritten and never ships in a download.
 import { isSelectMessage } from "@dsg/design-data/preview-messages";
@@ -7,7 +7,7 @@ import type {
   PreviewReadyMessage,
 } from "@dsg/design-data/types";
 import config from "preview:config";
-import { examples } from "preview:examples";
+import { stories } from "preview:stories";
 import { StrictMode, useEffect, useLayoutEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { ModeIcon } from "./icons/mode-icon";
@@ -37,21 +37,21 @@ function post(message: PreviewReadyMessage | PreviewModeMessage): void {
 }
 
 function Preview() {
-  const [exampleName, setExampleName] = useState(examples[0]?.name);
+  const [storyName, setStoryName] = useState(stories[0]?.name);
   const [mode, setMode] = useState(INITIAL_MODE);
 
   useEffect(() => {
     const onMessage = ({ source, data }: MessageEvent<unknown>) => {
       // The frame's origin is opaque, so trust the sender window, not an origin string.
       if (source !== window.parent || !isSelectMessage(data)) return;
-      if (examples.some((e) => e.name === data.example))
-        setExampleName(data.example);
+      if (stories.some((s) => s.name === data.example))
+        setStoryName(data.example);
       if (config.modes.includes(data.mode)) setMode(data.mode);
     };
     window.addEventListener("message", onMessage);
     post({
       type: "dsg-preview:ready",
-      examples: examples.map((e) => e.name),
+      examples: stories.map((s) => s.name),
       modes: config.modes,
       defaultMode: config.defaultMode,
       mode: INITIAL_MODE,
@@ -68,7 +68,7 @@ function Preview() {
     post({ type: "dsg-preview:mode", mode: next });
   };
 
-  const example = examples.find((e) => e.name === exampleName) ?? examples[0];
+  const story = stories.find((s) => s.name === storyName) ?? stories[0];
   const styles = stylesFor(mode);
   return (
     <div data-canvas="" className={styles.canvas}>
@@ -85,8 +85,8 @@ function Preview() {
           </button>
         </div>
       )}
-      <main aria-label={example?.name} className={stage}>
-        {example?.render()}
+      <main aria-label={story?.name} className={stage}>
+        {story?.render()}
       </main>
     </div>
   );

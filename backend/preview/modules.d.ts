@@ -11,7 +11,7 @@ declare module "preview:config" {
   export default config;
 }
 
-declare module "preview:examples" {
+declare module "preview:stories" {
   import type { ReactNode } from "react";
-  export const examples: { name: string; render: () => ReactNode }[];
+  export const stories: { name: string; render: () => ReactNode }[];
 }

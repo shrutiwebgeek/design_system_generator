@@ -4,7 +4,7 @@
 import type { ReactNode, SVGProps } from "react";
 import { Button } from "./button";
 
-// Inline icon so the examples don't depend on an icon library.
+// Inline icon so the stories don't depend on an icon library.
 function PlusIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -26,7 +26,7 @@ function Row({ children }: { children: ReactNode }) {
   return <div className="flex flex-wrap items-center gap-2">{children}</div>;
 }
 
-export const examples: { name: string; render: () => ReactNode }[] = [
+export const stories: { name: string; render: () => ReactNode }[] = [
   {
     name: "Variants",
     render: () => (

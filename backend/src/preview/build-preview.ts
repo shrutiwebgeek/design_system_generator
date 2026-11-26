@@ -3,6 +3,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Mapping, TokenFile } from "@dsg/design-data";
 import { build, type Plugin } from "esbuild";
+import { componentTokenInfo } from "../generator/component-tokens.ts";
+import { cvaHeights } from "../generator/size-heights.ts";
 import { generateComponent } from "../generator/generate.ts";
 import { compileTailwind } from "../generator/theme/compile-tailwind.ts";
 
@@ -11,7 +13,7 @@ const BACKEND_DIR = fileURLToPath(new URL("../../", import.meta.url));
 const SHELL_DIR = join(BACKEND_DIR, "preview");
 const SHELL = join(SHELL_DIR, "shell.tsx");
 
-export class NoExamplesError extends Error {}
+export class NoStoriesError extends Error {}
 /** The generated code didn't bundle: a generator or template bug, not the caller's. */
 export class PreviewBuildError extends Error {}
 
@@ -37,7 +39,7 @@ async function shellSources(): Promise<string[]> {
 
 /**
  * Builds one self-contained HTML document: the *generated* component and its
- * *generated* examples (the same code a download contains), bundled with React
+ * *generated* stories (the same code a download contains), bundled with React
  * and Base UI, plus Tailwind CSS compiled against the generated theme.
  */
 export async function buildPreview(
@@ -47,21 +49,30 @@ export async function buildPreview(
   label: string,
 ): Promise<string> {
   const generated = await generateComponent(source, tokens, mapping);
-  const examples = generated.files[`${source}.examples.tsx`];
-  if (examples === undefined) {
-    throw new NoExamplesError(`No preview examples for "${source}"`);
+  const stories = generated.files[`${source}.stories.tsx`];
+  if (stories === undefined) {
+    throw new NoStoriesError(`No preview stories for "${source}"`);
   }
 
   // Everything the bundle needs that isn't on disk. Relative imports between
   // generated files ("./button") resolve by file name without extension.
   const modules: Record<string, { contents: string; loader: "tsx" | "json" }> =
     {
-      "preview:examples": { contents: examples, loader: "tsx" },
+      "preview:stories": { contents: stories, loader: "tsx" },
       "preview:config": {
         contents: JSON.stringify({
           label,
           modes: Object.keys(tokens.modes),
           defaultMode: tokens.meta.defaultMode,
+          tokens: componentTokenInfo(tokens, mapping, source),
+          details: {
+            size: cvaHeights(
+              generated.files[`${source}.tsx`] ?? "",
+              tokens,
+              mapping,
+              "size",
+            ),
+          },
         }),
         loader: "json",
       },
@@ -80,7 +91,7 @@ export async function buildPreview(
     name: "preview-virtual-modules",
     setup(b) {
       b.onResolve(
-        { filter: /^(preview:config|preview:examples|@\/lib\/utils)$/ },
+        { filter: /^(preview:config|preview:stories|@\/lib\/utils)$/ },
         (args) => ({ path: args.path, namespace: "virtual" }),
       );
       b.onResolve({ filter: /^\.\//, namespace: "virtual" }, (args) => ({

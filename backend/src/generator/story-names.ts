@@ -1,14 +1,14 @@
 import ts from "typescript";
 
 /**
- * Example names read statically from an examples file, without running it:
- * the `name` string of each object literal in `export const examples = [...]`.
- * A non-literal name is skipped; the templates' examples test checks that the
+ * Story names read statically from a stories file, without running it:
+ * the `name` string of each object literal in `export const stories = [...]`.
+ * A non-literal name is skipped; the templates' stories test checks that the
  * static names match the runtime ones, so a skip can't go unnoticed.
  */
-export function exampleNamesIn(code: string): string[] {
+export function storyNamesIn(code: string): string[] {
   const file = ts.createSourceFile(
-    "examples.tsx",
+    "stories.tsx",
     code,
     ts.ScriptTarget.Latest,
     false,
@@ -21,8 +21,7 @@ export function exampleNamesIn(code: string): string[] {
     )
       continue;
     for (const decl of statement.declarationList.declarations) {
-      if (!ts.isIdentifier(decl.name) || decl.name.text !== "examples")
-        continue;
+      if (!ts.isIdentifier(decl.name) || decl.name.text !== "stories") continue;
       let init = decl.initializer;
       while (
         init &&

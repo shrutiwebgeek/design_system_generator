@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { GenerateResponse, Mapping, TokenFile } from "@dsg/design-data";
 import backendPackage from "../../package.json" with { type: "json" };
-import { exampleNamesIn } from "./example-names.ts";
+import { storyNamesIn } from "./story-names.ts";
 import { generateUtilsFile } from "./merge/utils-file.ts";
 import { applyClassSwaps } from "./rewrite/class-swaps.ts";
 import { createRewriter } from "./rewrite/rewrite.ts";
@@ -59,13 +59,13 @@ async function readOptional(
 }
 
 /**
- * The template's example names, read without running it. A template can be
- * previewed once it has some; [] without a template or an examples file.
+ * The template's story names, read without running it. A template can be
+ * previewed once it has some; [] without a template or a stories file.
  */
-export async function readExampleNames(source: string): Promise<string[]> {
+export async function readStoryNames(source: string): Promise<string[]> {
   if (!(await hasTemplate(source))) return [];
-  const examples = await readOptional(source, `${source}.examples.tsx`);
-  return examples === null ? [] : exampleNamesIn(examples);
+  const stories = await readOptional(source, `${source}.stories.tsx`);
+  return stories === null ? [] : storyNamesIn(stories);
 }
 
 /** npm packages the user installs, with the versions this backend was verified against. */
@@ -122,11 +122,11 @@ export async function generateComponent(
   const test = await readOptional(source, testFile);
   if (test !== null) files[testFile] = test;
 
-  // Examples are a usage reference that ships, so their layout classes go
+  // Stories are a usage reference that ships, so any layout classes in them go
   // through the same rewrite as the component (gap-2 → gap-ds-sm).
-  const examplesFile = `${source}.examples.tsx`;
-  const examples = await readOptional(source, examplesFile);
-  if (examples !== null) addRewritten(examplesFile, examples);
+  const storiesFile = `${source}.stories.tsx`;
+  const stories = await readOptional(source, storiesFile);
+  if (stories !== null) addRewritten(storiesFile, stories);
 
   return {
     source,

@@ -57,12 +57,12 @@ describe("POST /api/components/:source/generate", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as GenerateResponse;
     expect(Object.keys(body.files).sort()).toEqual([
-      "button.examples.tsx",
+      "button.stories.tsx",
       "button.test.tsx",
       "button.tsx",
     ]);
-    // Examples ship tokenized, like the component.
-    expect(body.files["button.examples.tsx"]).toContain("gap-ds-sm");
+    // Stories ship tokenized, like the component.
+    expect(body.files["button.stories.tsx"]).toContain("gap-ds-sm");
     expect(body.files["button.tsx"]).toContain('from "@/lib/utils"');
     expect(body.warnings.map((w) => w.reason)).toEqual([
       "arbitrary",
