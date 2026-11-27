@@ -26,8 +26,16 @@ export const disabledIconButton = cn(
   "aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
   "aria-disabled:hover:bg-transparent",
 );
-/** shadcn's default tooltip text is 12px. */
-export const tipContent = "px-3 py-2 text-sm";
+/**
+ * Card glass, solid: the card color with the bronze border, small text (15.4:1). Solid,
+ * because the tooltips open over text, which showed through at 88% and 90%. The arrow
+ * is outlined on its two outer edges.
+ */
+export const tipContent = cn(
+  "px-2 py-1 text-xs",
+  "border border-primary bg-card text-foreground shadow-sm",
+  "*:last:border-t *:last:border-l *:last:border-primary *:last:bg-card *:last:fill-card",
+);
 
 // Panels
 export const panel = "min-h-0";
@@ -72,10 +80,10 @@ export const slider = cn(
 export const sliderMarks = "relative -mt-1 h-1.5";
 export const sliderMark = "absolute top-0 h-1.5 w-px -translate-x-1/2 bg-input";
 export const colorRow = cn(row, "gap-2");
-/** The hex field's error: shadcn's tooltip in the destructive color (white on it: 7.7:1), arrow included. */
+/** The hex field's error: the same tooltip in red, border and text (7.0:1). */
 export const errorTip = cn(
-  "bg-destructive text-white",
-  "*:last:bg-destructive *:last:fill-destructive",
+  tipContent,
+  "border-destructive text-destructive *:last:border-destructive",
 );
 /** The native color input, trimmed to a swatch beside the text field. */
 export const swatch = cn(
