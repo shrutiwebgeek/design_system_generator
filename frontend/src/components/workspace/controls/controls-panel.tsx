@@ -86,7 +86,7 @@ export function ControlsPanel({
 function Panel({ children }: { children: ReactNode }) {
   return (
     <aside aria-label="Controls" className={styles.controls}>
-      <h2 className={styles.controlsTitle}>Controls</h2>
+      <h1 className={styles.controlsTitle}>Control Panel</h1>
       {children}
     </aside>
   );
@@ -95,7 +95,7 @@ function Panel({ children }: { children: ReactNode }) {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section aria-label={title} className={styles.controlSection}>
-      <h3 className={styles.sectionTitle}>{title}</h3>
+      <h2 className={styles.sectionTitle}>{title}</h2>
       {children}
     </section>
   );

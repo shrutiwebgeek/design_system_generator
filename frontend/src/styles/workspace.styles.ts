@@ -40,11 +40,11 @@ export const status = cn(center, note, "size-full p-4");
 // Controls
 export const controls = cn(
   column,
-  "w-88 shrink-0 gap-6 overflow-y-auto border-l p-4",
+  "w-88 shrink-0 gap-6 overflow-y-auto border-l p-3",
 );
-export const controlsTitle = cn(heading, "text-sm");
+export const controlsTitle = cn(heading);
 export const controlSection = cn(column, "gap-4");
-export const sectionTitle = cn(heading, "text-sm");
+export const sectionTitle = cn(heading);
 export const controlField = cn(column, "gap-2");
 export const checkboxField = "gap-2 font-normal";
 export const selectTrigger = "w-full";
