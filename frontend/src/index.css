@@ -40,6 +40,7 @@
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  --color-secondary-strong: var(--secondary-strong);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
@@ -78,6 +79,8 @@
   --primary-foreground: #ffffff;
   --secondary: #a5af79; /* sage */
   --secondary-foreground: var(--foreground); /* 7.05 at rest, 6.43 on hover */
+  /* Sage, OKLCH L 0.58. Exact sage is 2.04 on background, under the 3:1 rule for non-text. */
+  --secondary-strong: #77804c; /* 3.68 background, 3.94 card, 4.21 on white */
   --muted: #f1d7c6; /* 30% apricot into cream; ghost, outline and menu hovers */
   --muted-foreground: #6c5c33; /* bronze, L 0.48: 5.71 background, 6.11 card, 4.76 muted */
   --accent: #e8a07c; /* apricot */

@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import * as styles from "@/styles/workspace.styles";
+import { ScaleSlider } from "./scale-slider";
 
 interface ArgControlProps {
   control: StoryControl;
@@ -18,7 +19,7 @@ interface ArgControlProps {
   onChange: (value: string | boolean) => void;
 }
 
-/** One arg's widget: a dropdown, a checkbox or a text field. */
+/** One arg's widget: a slider for a scale like Size, else a dropdown, a checkbox or a text field. */
 export function ArgControl({ control, value, onChange }: ArgControlProps) {
   const id = useId();
 
@@ -34,7 +35,28 @@ export function ArgControl({ control, value, onChange }: ArgControlProps) {
     );
   }
 
-  // A size reads "xs · 24px": the preview adds each option's height.
+  // A size knows each option's height (the preview adds them), so it's a scale.
+  const details = control.type === "select" ? control.details : undefined;
+  if (
+    control.type === "select" &&
+    details &&
+    control.options.every((o) => details[o])
+  ) {
+    return (
+      <ScaleSlider
+        label={control.label}
+        steps={control.options.map((option) => ({
+          value: option,
+          text: `${option} · ${details[option]}`,
+          size: details[option] ?? "",
+        }))}
+        value={String(value ?? "")}
+        onChange={onChange}
+      />
+    );
+  }
+
+  // Any other select: a dropdown, each option with its detail if it has one.
   const items =
     control.type === "select"
       ? control.options.map((option) => {

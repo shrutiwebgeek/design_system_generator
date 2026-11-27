@@ -48,6 +48,20 @@ export const sectionTitle = cn(heading);
 export const controlField = cn(column, "gap-2");
 export const checkboxField = "gap-2 font-normal";
 export const selectTrigger = "w-full";
+export const sliderHeader = "flex items-center justify-between gap-2";
+export const sliderValue = cn(note, "text-xs tabular-nums");
+/**
+ * Deep sage on light bronze (her pick, 2026-11-27): the track is the brand bronze at 20%
+ * on the cream, the fill deep sage (3.69:1 on the cream, 2.9:1 against the track), and
+ * the thumb keeps shadcn's bronze outline (6.25:1). The marks (3.19:1) show the steps.
+ */
+export const slider = cn(
+  "[&_[data-slot=slider-track]]:bg-ring/20",
+  "[&_[data-slot=slider-range]]:bg-secondary-strong",
+);
+/** The row of step marks under a slider; each mark is placed under its step. */
+export const sliderMarks = "relative -mt-1 h-1.5";
+export const sliderMark = "absolute top-0 h-1.5 w-px -translate-x-1/2 bg-input";
 export const colorRow = cn(row, "gap-2");
 /** The hex field's error: shadcn's tooltip in the destructive color (white on it: 7.7:1), arrow included. */
 export const errorTip = cn(
