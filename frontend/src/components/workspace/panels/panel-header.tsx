@@ -1,13 +1,8 @@
 import { DownloadIcon, Maximize2Icon, Minimize2Icon } from "lucide-react";
-import type { ReactElement } from "react";
 import { Button } from "@/components/ui/button";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import * as styles from "@/styles/workspace.styles";
+import { IconTip } from "../icon-tip";
 
 interface FullScreenProps {
   fullScreen: boolean;
@@ -48,7 +43,7 @@ function PanelActions({ fullScreen, onFullScreenChange }: FullScreenProps) {
           disabled
           focusableWhenDisabled
           aria-label="Download (coming soon)"
-          className={styles.downloadButton}
+          className={styles.disabledIconButton}
         >
           <DownloadIcon aria-hidden="true" />
         </Button>
@@ -64,26 +59,5 @@ function PanelActions({ fullScreen, onFullScreenChange }: FullScreenProps) {
         </Button>
       </IconTip>
     </div>
-  );
-}
-
-interface IconTipProps {
-  label: string;
-  children: ReactElement;
-}
-
-/**
- * Replaces the native `title`, which Chrome shows only after about a second of
- * hovering, in small system text, and never on keyboard focus. This one opens at once
- * on hover and on focus, below the button.
- */
-function IconTip({ label, children }: IconTipProps) {
-  return (
-    <Tooltip>
-      <TooltipTrigger render={children} />
-      <TooltipContent side="bottom" className={styles.tipContent}>
-        {label}
-      </TooltipContent>
-    </Tooltip>
   );
 }

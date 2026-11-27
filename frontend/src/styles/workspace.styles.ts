@@ -18,8 +18,11 @@ export const tab = cn(
   "group-data-horizontal/tabs:after:bottom-0",
 );
 export const panelActions = "flex items-center gap-1";
-/** Base UI sets aria-disabled instead of disabled here, so the dimming hangs on it. */
-export const downloadButton = cn(
+/**
+ * Icon buttons that are disabled but stay focusable (Download, the resets), so their
+ * tooltip still explains them. Base UI sets aria-disabled then, so the dimming hangs on it.
+ */
+export const disabledIconButton = cn(
   "aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
   "aria-disabled:hover:bg-transparent",
 );
