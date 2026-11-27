@@ -28,3 +28,10 @@ export function tokenValues(
       out[scope] = { ...out[scope], [token.cssVar]: value };
   return out;
 }
+
+/** Whether any of these tokens has an edit in this mode (or "*"). */
+export const isEdited = (
+  edits: TokenEdits,
+  keys: string[],
+  scope: string,
+): boolean => keys.some((key) => edits[key]?.[scope] !== undefined);

@@ -31,7 +31,20 @@ export function useTokenEdits(source: string) {
 
   const edit = (key: string, scope: string, value: string) =>
     setEdits((prev) => ({ ...prev, [key]: { ...prev[key], [scope]: value } }));
-  const reset = () => setEdits({});
+  /** Back to the theme's values for these tokens, in one mode (or "*" for shared ones). */
+  const reset = (keys: string[], scope: string) =>
+    setEdits((prev) => {
+      const next: TokenEdits = {};
+      for (const [key, scopes] of Object.entries(prev)) {
+        const left = keys.includes(key)
+          ? Object.fromEntries(
+              Object.entries(scopes).filter(([s]) => s !== scope),
+            )
+          : scopes;
+        if (Object.keys(left).length > 0) next[key] = left;
+      }
+      return next;
+    });
 
   return { edits, edit, reset };
 }

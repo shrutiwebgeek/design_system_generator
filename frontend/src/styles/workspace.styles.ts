@@ -43,11 +43,17 @@ export const status = cn(center, note, "size-full p-4");
 // Controls
 export const controls = cn(
   column,
-  "w-88 shrink-0 gap-6 overflow-y-auto border-l p-3",
+  "w-78 shrink-0 gap-6 overflow-y-auto border-l p-3",
 );
 export const controlsTitle = cn(heading);
 export const controlSection = cn(column, "gap-4");
 export const sectionTitle = cn(heading);
+/** The title on the left, a reset on the right; the same height with or without it. */
+export const sectionHeader = "flex min-h-8 items-center justify-between gap-2";
+export const sectionNote = cn(note, "text-xs");
+export const panelNote = cn(note, "text-xs");
+/** The title and its note, kept close together. */
+export const controlsHeader = cn(column, "gap-1");
 export const controlField = cn(column, "gap-2");
 export const checkboxField = "gap-2 font-normal";
 export const selectTrigger = "w-full";
