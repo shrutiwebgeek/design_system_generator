@@ -1,5 +1,14 @@
 import { cn } from "@/lib/utils";
-import { center, column, fill, focusRing, heading, note, row } from "./atoms";
+import {
+  center,
+  column,
+  fill,
+  focusRing,
+  heading,
+  mutedText,
+  note,
+  row,
+} from "./atoms";
 
 export const main = cn(column, "min-w-0 flex-1");
 export const tabs = cn(fill, "gap-0");
@@ -80,6 +89,16 @@ export const slider = cn(
 export const sliderMarks = "relative -mt-1 h-1.5";
 export const sliderMark = "absolute top-0 h-1.5 w-px -translate-x-1/2 bg-input";
 export const colorRow = cn(row, "gap-2");
+/** The opacity beside the hex: a number with a "%" after it, no spinner buttons. */
+export const opacityField = "relative w-18 shrink-0";
+export const opacityInput = cn(
+  "pr-6 tabular-nums [appearance:textfield]",
+  "[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+);
+export const opacitySuffix = cn(
+  mutedText,
+  "pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 text-sm",
+);
 /** The hex field's error: the same tooltip in red, border and text (7.0:1). */
 export const errorTip = cn(
   tipContent,
